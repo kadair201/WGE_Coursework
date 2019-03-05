@@ -9,7 +9,11 @@ public class VoxelChunk : MonoBehaviour
 
     int[,,] terrainArray;
     int chunkSize = 16;
-
+    
+    public delegate void EventBlockChanged();
+    
+    public static event EventBlockChanged OnEventBlockDestroyed;
+    public static event EventBlockChanged OnEventBlockPlaced;
 
 
 
@@ -148,8 +152,6 @@ public class VoxelChunk : MonoBehaviour
                         {
                             voxelGenerator.CreatePositiveZFace(x, y, z, tex);
                         }
-
-                        print("Create " + tex + " block,");
                     }
                 }
             }
@@ -161,12 +163,23 @@ public class VoxelChunk : MonoBehaviour
 
     public void SetBlock(Vector3 index, int blockType)
     {
-        // Change the block to the required type
-        terrainArray[(int)index.x, (int)index.y, (int)index.z] = blockType;
-        // Create a new mesh
-        CreateTerrain();
-        // Update the mesh
-        voxelGenerator.UpdateMesh();
-    }
+        if ((index.x > 0 && index.x < terrainArray.GetLength(0)) && (index.y > 0 && index.y < terrainArray.GetLength(1)) && (index.z > 0 && index.z < terrainArray.GetLength(2)))
+        {
+            // Change the block to the required type
+            terrainArray[(int)index.x, (int)index.y, (int)index.z] = blockType;
+            // Create the new mesh
+            CreateTerrain();
+            // Update the mesh data
+            GetComponent<VoxelGenerator>().UpdateMesh();
 
+            if (blockType == 0)
+            {
+                OnEventBlockDestroyed();
+            }
+            else
+            {
+                OnEventBlockPlaced();
+            }
+        }
+    }
 }

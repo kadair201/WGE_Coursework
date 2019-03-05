@@ -45,6 +45,8 @@ public class VoxelGenerator : MonoBehaviour
 
     public void UpdateMesh()
     {
+        mesh.Clear();
+
         // Convert the lists to arrays and store them in the mesh
         mesh.vertices = vertexList.ToArray();
         mesh.triangles = triIndexList.ToArray();
@@ -55,6 +57,8 @@ public class VoxelGenerator : MonoBehaviour
         // Create a mesh collider
         meshCollider.sharedMesh = null;
         meshCollider.sharedMesh = mesh;
+
+        ClearPreviousData();
     }
 
 
