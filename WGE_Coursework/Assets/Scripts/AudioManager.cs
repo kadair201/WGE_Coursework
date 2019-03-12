@@ -7,23 +7,22 @@ public class AudioManager : MonoBehaviour {
     // Variables 
     public AudioClip destroyBlockSound;
     public AudioClip placeBlockSound;
-
+    
 
 
 
     // Play the Destroy Block Audio
-    void PlayDestroyBlockSound()
+    void PlayBlockSound(int blockType)
     {
-        GetComponent<AudioSource>().PlayOneShot(destroyBlockSound);
-    }
-
-
-
-
-    // Play the Place Block Audio
-    void PlayPlaceBlockSound()
-    {
-        GetComponent<AudioSource>().PlayOneShot(placeBlockSound);
+        if (blockType == 0)
+        {
+            GetComponent<AudioSource>().PlayOneShot(destroyBlockSound);
+        }
+        else
+        {
+            GetComponent<AudioSource>().PlayOneShot(placeBlockSound);
+        }
+        
     }
 
 
@@ -32,8 +31,7 @@ public class AudioManager : MonoBehaviour {
     // When game object is enabled
     void OnEnable()
     {
-        VoxelChunk.OnEventBlockDestroyed += PlayDestroyBlockSound;
-        VoxelChunk.OnEventBlockPlaced += PlayPlaceBlockSound;
+        VoxelChunk.OnEventBlockChanged += PlayBlockSound;
     }
 
 
@@ -42,7 +40,6 @@ public class AudioManager : MonoBehaviour {
     // When game object is disabled
     void OnDisable()
     {
-        VoxelChunk.OnEventBlockDestroyed -= PlayDestroyBlockSound;
-        VoxelChunk.OnEventBlockPlaced -= PlayPlaceBlockSound;
+        VoxelChunk.OnEventBlockChanged -= PlayBlockSound;
     }
 }

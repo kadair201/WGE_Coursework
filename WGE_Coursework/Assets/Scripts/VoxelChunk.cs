@@ -11,9 +11,8 @@ public class VoxelChunk : MonoBehaviour
     int chunkSize = 16;
     
     public delegate void EventBlockChanged();
-    
-    public static event EventBlockChanged OnEventBlockDestroyed;
-    public static event EventBlockChanged OnEventBlockPlaced;
+    public delegate void EventBlockChangedWithType(int blockType);
+    public static event EventBlockChangedWithType OnEventBlockChanged;
 
 
 
@@ -26,6 +25,8 @@ public class VoxelChunk : MonoBehaviour
         InitialiseTerrain();
         CreateTerrain();
         voxelGenerator.UpdateMesh();
+
+        PlayerScript.OnEventSetBlock += SetBlock;
     }
     
 
@@ -172,14 +173,7 @@ public class VoxelChunk : MonoBehaviour
             // Update the mesh data
             GetComponent<VoxelGenerator>().UpdateMesh();
 
-            if (blockType == 0)
-            {
-                OnEventBlockDestroyed();
-            }
-            else
-            {
-                OnEventBlockPlaced();
-            }
+            OnEventBlockChanged(blockType);
         }
     }
 }
