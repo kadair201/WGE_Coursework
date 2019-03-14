@@ -28,7 +28,31 @@ public class VoxelChunk : MonoBehaviour
 
         PlayerScript.OnEventSetBlock += SetBlock;
     }
-    
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "VoxelChunk");
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            // Get terrainArray from XML file
+            terrainArray = XMLVoxelFileWriter.LoadChunkFromXMLFile(16, "VoxelChunk");
+            if (terrainArray != null)
+            {
+                // Draw the correct faces
+                CreateTerrain();
+                // Update mesh info
+                voxelGenerator.UpdateMesh();
+            }
+            else
+            {
+                Debug.Log("No file 'VoxelChunk' exists");
+            }
+        }
+    }
+
 
 
 
