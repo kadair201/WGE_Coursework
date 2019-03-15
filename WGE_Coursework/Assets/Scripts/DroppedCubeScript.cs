@@ -5,7 +5,7 @@ using UnityEngine;
 public class DroppedCubeScript : MonoBehaviour {
 
     public int blockTex;
-    public GameObject player;
+    GameObject player;
     string blockTexName;
     VoxelGenerator voxelGenerator;
     Vector3 direction;
@@ -36,11 +36,14 @@ public class DroppedCubeScript : MonoBehaviour {
         voxelGenerator.CreateVoxel(0, 0, 0, blockTexName);
         voxelGenerator.UpdateMesh();
         rb = GetComponent<Rigidbody>();
+        player = GameObject.Find("Player");
     }
 	
 	// Update is called once per frame
 	void Update () {
         direction = (player.transform.position - transform.position);
+        direction.Normalize();
+        Debug.DrawLine(player.transform.position, transform.position);
         rb.AddForce(direction, ForceMode.Impulse);
 	}
 }
