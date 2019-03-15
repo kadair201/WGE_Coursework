@@ -74,7 +74,8 @@ public class XMLVoxelFileWriter
                 // Retrieve z attribute and store as int
                 int z = int.Parse(xmlReader["z"]);
                 xmlReader.Read();
-                int value = int.Parse(xmlReader.Value);                voxelArray[x, y, z] = value;
+                int value = int.Parse(xmlReader.Value);
+                voxelArray[x, y, z] = value;
             }
         }
         return voxelArray;

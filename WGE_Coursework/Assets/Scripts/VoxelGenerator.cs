@@ -20,7 +20,7 @@ public class VoxelGenerator : MonoBehaviour
     Mesh mesh;
     MeshCollider meshCollider;
     
-    Dictionary<string, Vector2> texNameCoordDictionary;
+    public Dictionary<string, Vector2> texNameCoordDictionary;
 
 
 
