@@ -194,7 +194,7 @@ public class VoxelChunk : MonoBehaviour
         if ((index.x >= 0 && index.x <= terrainArray.GetLength(0)) && (index.y >= 0 && index.y <= terrainArray.GetLength(1)) && (index.z >= 0 && index.z <= terrainArray.GetLength(2)))
         {
             // If the block is destroyed, spawn the collectable block
-            OnEventDroppedBlock(blockType, index);
+            OnEventDroppedBlock(terrainArray[(int)index.x, (int)index.y, (int)index.z], index);
             // Change the block to the required type
             terrainArray[(int)index.x, (int)index.y, (int)index.z] = blockType;
             // Create the new mesh

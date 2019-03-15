@@ -6,7 +6,6 @@ public class PlayerScript : MonoBehaviour {
 
     // Variables
     bool empty;
-    int blockTex;
     public delegate void EventSetBlock(Vector3 index, int blockType);
     public static event EventSetBlock OnEventSetBlock;
 
@@ -21,8 +20,6 @@ public class PlayerScript : MonoBehaviour {
             Vector3 v;
             if (PickBlock(out v, 4, false))
             {
-                // find the block texture
-                Debug.Log("Block type: " + blockTex);
                 // set the block type to 0
                 OnEventSetBlock(v, 0);
             }
@@ -35,7 +32,6 @@ public class PlayerScript : MonoBehaviour {
                 OnEventSetBlock(v, 3);
             }
         }
-
     }
 
 

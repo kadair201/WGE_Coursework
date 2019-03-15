@@ -20,7 +20,7 @@ public class VoxelGenerator : MonoBehaviour
     Mesh mesh;
     MeshCollider meshCollider;
     
-    public Dictionary<string, Vector2> texNameCoordDictionary;
+    Dictionary<string, Vector2> texNameCoordDictionary;
 
 
 
@@ -84,6 +84,7 @@ public class VoxelGenerator : MonoBehaviour
     {
         // Get the texture coordinates from the dictionary
         Vector2 uvCoords = texNameCoordDictionary[texture];
+        Debug.Log(uvCoords);
         // Create the 6 faces
         CreateNegativeXFace(x, y, z, uvCoords);
         CreatePositiveXFace(x, y, z, uvCoords);
