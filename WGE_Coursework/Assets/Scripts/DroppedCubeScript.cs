@@ -5,8 +5,12 @@ using UnityEngine;
 public class DroppedCubeScript : MonoBehaviour {
 
     public int blockTex;
-    GameObject player;
     string blockTexName;
+
+    public delegate void EventAddInventory(int blockType);
+    public static event EventAddInventory OnEventAddInventory;
+
+    GameObject player;
     VoxelGenerator voxelGenerator;
     Vector3 direction;
     Rigidbody rb;
@@ -43,7 +47,15 @@ public class DroppedCubeScript : MonoBehaviour {
 	void Update () {
         direction = (player.transform.position - transform.position);
         direction.Normalize();
-        Debug.DrawLine(player.transform.position, transform.position);
         rb.AddForce(direction, ForceMode.Impulse);
 	}
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag ==  "Player")
+        {
+            OnEventAddInventory(blockTex);
+            Destroy(gameObject);
+        }
+    }
 }
