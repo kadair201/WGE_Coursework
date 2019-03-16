@@ -6,6 +6,7 @@ public class VoxelChunk : MonoBehaviour
 {
     // Variables
     VoxelGenerator voxelGenerator;
+    GameObject player;
 
     int[,,] terrainArray;
     int chunkSize = 16;
@@ -29,18 +30,19 @@ public class VoxelChunk : MonoBehaviour
         voxelGenerator.UpdateMesh();
 
         PlayerScript.OnEventSetBlock += SetBlock;
+        player = GameObject.Find("Player");
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "VoxelChunk");
+            XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "Save", player.transform.position);
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
             // Get terrainArray from XML file
-            terrainArray = XMLVoxelFileWriter.LoadChunkFromXMLFile(16, "VoxelChunk");
+            terrainArray = XMLVoxelFileWriter.LoadChunkFromXMLFile(16, "Save");
             if (terrainArray != null)
             {
                 // Draw the correct faces
@@ -50,7 +52,7 @@ public class VoxelChunk : MonoBehaviour
             }
             else
             {
-                Debug.Log("No file 'VoxelChunk' exists");
+                Debug.Log("No save file exists");
             }
         }
 

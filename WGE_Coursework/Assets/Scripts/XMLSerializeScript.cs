@@ -27,7 +27,7 @@ public class XMLSerializeScript : MonoBehaviour {
             TestDataClass tdc = new TestDataClass("", "");
             XmlSerializer x = new XmlSerializer(tdc.GetType());
             System.IO.FileStream file =
-           System.IO.File.OpenRead("TestFile.xml");
+            System.IO.File.OpenRead("TestFile.xml");
             tdc = (TestDataClass)x.Deserialize(file);
             file.Close();
             print(tdc.name + ": " + tdc.description);

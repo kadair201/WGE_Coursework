@@ -29,8 +29,13 @@ public class PlayerScript : MonoBehaviour {
             Vector3 v;
             if (PickBlock(out v, 4, true))
             {
-                OnEventSetBlock(v, 3);
+                OnEventSetBlock(v, 1);
             }
+        }
+
+        if (transform.position.y < -10)
+        {
+            transform.position = new Vector3(0, 5, 0);
         }
     }
 

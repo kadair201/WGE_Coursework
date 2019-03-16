@@ -3,15 +3,16 @@ using System.Collections;
 using System.Xml;
 
 public class XMLVoxelFileWriter
-{
+{ 
+
     // Write a voxel chunk to XML file
-    public static void SaveChunkToXMLFile(int[,,] voxelArray, string fileName)
+    public static void SaveChunkToXMLFile(int[,,] voxelArray, string fileName, Vector3 position)
     {
         XmlWriterSettings writerSettings = new XmlWriterSettings();
         writerSettings.Indent = true;
         // Create a write instance
-        XmlWriter xmlWriter =
-        XmlWriter.Create(fileName + ".xml", writerSettings);
+        XmlWriter xmlWriter = XmlWriter.Create(fileName + ".xml", writerSettings);
+        
         // Write the beginning of the document
         xmlWriter.WriteStartDocument();
         // Create the root element
@@ -46,8 +47,14 @@ public class XMLVoxelFileWriter
             }
         }
 
+        xmlWriter.WriteStartElement("Position");
+        xmlWriter.WriteAttributeString("x", position.x.ToString());
+        xmlWriter.WriteAttributeString("y", position.y.ToString());
+        xmlWriter.WriteAttributeString("z", position.z.ToString());
+
         // End the root element
         xmlWriter.WriteEndElement();
+        
         // Write the end of the document
         xmlWriter.WriteEndDocument();
         // Close the document to save
@@ -76,6 +83,18 @@ public class XMLVoxelFileWriter
                 xmlReader.Read();
                 int value = int.Parse(xmlReader.Value);
                 voxelArray[x, y, z] = value;
+            }
+
+            if (xmlReader.IsStartElement("Position"))
+            {
+                float posX = float.Parse(xmlReader["x"]);
+                float posY = float.Parse(xmlReader["y"]);
+                float posZ = float.Parse(xmlReader["z"]);
+                xmlReader.Read();
+                Vector3 loadedPosition = new Vector3(posX, posY, posZ);
+
+                GameObject player = GameObject.Find("Player");
+                player.transform.position = loadedPosition;
             }
         }
         return voxelArray;
