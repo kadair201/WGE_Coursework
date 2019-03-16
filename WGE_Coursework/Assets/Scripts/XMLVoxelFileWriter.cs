@@ -6,7 +6,7 @@ public class XMLVoxelFileWriter
 { 
 
     // Write a voxel chunk to XML file
-    public static void SaveChunkToXMLFile(int[,,] voxelArray, string fileName, Vector3 position)
+    public static void SaveChunkToXMLFile(int[,,] voxelArray, string fileName, Vector3 position, Vector3 rotation)
     {
         XmlWriterSettings writerSettings = new XmlWriterSettings();
         writerSettings.Indent = true;
@@ -52,6 +52,11 @@ public class XMLVoxelFileWriter
         xmlWriter.WriteAttributeString("y", position.y.ToString());
         xmlWriter.WriteAttributeString("z", position.z.ToString());
 
+        xmlWriter.WriteStartElement("Rotation");
+        xmlWriter.WriteAttributeString("x", rotation.x.ToString());
+        xmlWriter.WriteAttributeString("y", rotation.y.ToString());
+        xmlWriter.WriteAttributeString("z", rotation.z.ToString());
+
         // End the root element
         xmlWriter.WriteEndElement();
         
@@ -95,6 +100,18 @@ public class XMLVoxelFileWriter
 
                 GameObject player = GameObject.Find("Player");
                 player.transform.position = loadedPosition;
+            }
+
+            if (xmlReader.IsStartElement("Rotation"))
+            {
+                float rotX = float.Parse(xmlReader["x"]);
+                float rotY = float.Parse(xmlReader["y"]);
+                float rotZ = float.Parse(xmlReader["z"]);
+                xmlReader.Read();
+                Vector3 loadedRotation = new Vector3(rotX, rotY, rotZ);
+
+                GameObject player = GameObject.Find("Player");
+                player.transform.eulerAngles = loadedRotation;
             }
         }
         return voxelArray;

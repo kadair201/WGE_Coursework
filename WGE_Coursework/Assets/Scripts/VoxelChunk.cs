@@ -37,7 +37,7 @@ public class VoxelChunk : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "Save", player.transform.position);
+            XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "Save", player.transform.position, player.transform.eulerAngles);
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
