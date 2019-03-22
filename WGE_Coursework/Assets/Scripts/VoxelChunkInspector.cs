@@ -14,18 +14,19 @@ public class VoxelChunkInspector : Editor {
 
         if (GUILayout.Button("Load from XML"))
         {
-            myTarget.LoadSave(filename);
+            myTarget.LoadChunk(filename);
         }
 
         if (GUILayout.Button("Save to XML"))
         {
-            myTarget.SaveFile(filename);
+            myTarget.SaveChunk(filename);
         }
 
         if (GUILayout.Button("Clear Terrain"))
         {
-            myTarget.ClearFile();
-        }
+            myTarget.ClearChunk();
+        }
+
     }
 
 

@@ -217,7 +217,7 @@ public class VoxelChunk : MonoBehaviour
 
 
 
-    public void LoadSave(string filename)
+    public void LoadChunk(string filename)
     {
         terrainArray = XMLVoxelFileWriter.LoadChunkFromXMLFile(16, filename);
         CreateTerrain();
@@ -226,15 +226,15 @@ public class VoxelChunk : MonoBehaviour
 
 
 
-    public void SaveFile(string filename)
+    public void SaveChunk(string filename)
     {
-        XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, filename, player.transform.position);
+        XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "VoxelChunk", player.transform.position);
     }
 
 
 
 
-    public void ClearFile()
+    public void ClearChunk()
     {
         terrainArray = new int[chunkSize, chunkSize, chunkSize];
         voxelGenerator.Initialise();

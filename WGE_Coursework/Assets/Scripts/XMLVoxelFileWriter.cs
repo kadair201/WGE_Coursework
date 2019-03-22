@@ -52,11 +52,6 @@ public class XMLVoxelFileWriter
         xmlWriter.WriteAttributeString("y", position.y.ToString());
         xmlWriter.WriteAttributeString("z", position.z.ToString());
 
-        xmlWriter.WriteStartElement("Rotation");
-        xmlWriter.WriteAttributeString("x", rotation.x.ToString());
-        xmlWriter.WriteAttributeString("y", rotation.y.ToString());
-        xmlWriter.WriteAttributeString("z", rotation.z.ToString());
-
         // End the root element
         xmlWriter.WriteEndElement();
         
