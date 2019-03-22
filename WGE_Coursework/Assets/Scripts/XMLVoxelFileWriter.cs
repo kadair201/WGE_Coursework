@@ -6,7 +6,7 @@ public class XMLVoxelFileWriter
 { 
 
     // Write a voxel chunk to XML file
-    public static void SaveChunkToXMLFile(int[,,] voxelArray, string fileName, Vector3 position, Vector3 rotation)
+    public static void SaveChunkToXMLFile(int[,,] voxelArray, string fileName, Vector3 position)
     {
         XmlWriterSettings writerSettings = new XmlWriterSettings();
         writerSettings.Indent = true;
