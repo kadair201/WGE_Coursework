@@ -237,7 +237,6 @@ public class VoxelChunk : MonoBehaviour
     public void ClearChunk()
     {
         terrainArray = new int[chunkSize, chunkSize, chunkSize];
-        voxelGenerator.Initialise();
         InitialiseTerrain();
         CreateTerrain();
         voxelGenerator.UpdateMesh();

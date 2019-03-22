@@ -1024,4 +1024,5 @@
   <Voxel x="15" y="3" z="13">1</Voxel>
   <Voxel x="15" y="3" z="14">1</Voxel>
   <Voxel x="15" y="3" z="15">1</Voxel>
+  <Position x="0" y="4.98" z="0" />
 </VoxelChunk>
