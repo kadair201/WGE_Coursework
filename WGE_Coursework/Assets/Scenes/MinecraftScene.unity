@@ -113,42 +113,9 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &35404511
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 35404512}
-  m_Layer: 0
-  m_Name: Dropped
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &35404512
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 35404511}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 74508110}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &74508105 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0,
-    type: 2}
-  m_PrefabInternal: {fileID: 1358975405}
---- !u!4 &74508110 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 5e9e851c0e142814dac026a256ba2ac0,
     type: 2}
   m_PrefabInternal: {fileID: 1358975405}
 --- !u!114 &74508111
@@ -162,6 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d35f782470b02a4c934c0693f1de48b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockNum: 0
+  blockCounts: 00000000000000000000000000000000
 --- !u!1 &149853393
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,15 +920,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a82f5062b4bce8348a3033cd2555c5b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dirtBlocks: 0
-  sandBlocks: 0
-  grassBlocks: 0
-  stoneBlocks: 0
   inventoryTextGrass: {fileID: 1667487126}
   inventoryTextDirt: {fileID: 534217381}
   inventoryTextSand: {fileID: 1847520434}
   inventoryTextStone: {fileID: 1629042089}
-  hotbarSelector: {fileID: 1422904189}
+  hotbarSelector: {fileID: 1422904187}
+  playerScript: {fileID: 74508111}
 --- !u!4 &925304315
 Transform:
   m_ObjectHideFlags: 0

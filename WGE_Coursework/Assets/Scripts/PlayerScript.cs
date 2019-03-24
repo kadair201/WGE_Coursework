@@ -6,6 +6,8 @@ public class PlayerScript : MonoBehaviour {
 
     // Variables
     bool empty;
+    public int blockNum;
+    public int[] blockCounts;
     public delegate void EventSetBlock(Vector3 index, int blockType);
     public static event EventSetBlock OnEventSetBlock;
 
@@ -26,10 +28,15 @@ public class PlayerScript : MonoBehaviour {
         }
         else if (Input.GetButtonDown("Fire2"))
         {
-            Vector3 v;
-            if (PickBlock(out v, 4, true))
+            if (blockCounts[blockNum-1] > 0)
             {
-                OnEventSetBlock(v, 1);
+                Vector3 v;
+                if (PickBlock(out v, 4, true))
+                {
+                    // sets a block of type blockNum down
+                    OnEventSetBlock(v, blockNum);
+                    blockCounts[blockNum-1]--;
+                }
             }
         }
 

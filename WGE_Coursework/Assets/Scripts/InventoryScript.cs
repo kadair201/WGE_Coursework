@@ -5,23 +5,20 @@ using UnityEngine.UI;
 
 public class InventoryScript : MonoBehaviour {
 
-    int pos = -1;
-    Vector3 pos1;
-    public int dirtBlocks = 0;
-    public int sandBlocks = 0;
-    public int grassBlocks = 0;
-    public int stoneBlocks = 0;
+    int pos = 1;
+    bool canScrollUp = true;
+    bool canScrollDown = true;
     public Text inventoryTextGrass;
     public Text inventoryTextDirt;
     public Text inventoryTextSand;
     public Text inventoryTextStone;
-    public RawImage hotbarSelector;
+    public GameObject hotbarSelector;
+    public PlayerScript playerScript;
 
 	// Use this for initialization
 	void Start () {
         DroppedCubeScript.OnEventAddInventory += AddBlockToInventory;
-        pos1 = hotbarSelector.GetComponent<RectTransform>().anchoredPosition = new Vector3(-37, 0, 0);
-
+        Debug.Log(hotbarSelector.transform.position);
 	}
 	
 	// Update is called once per frame
@@ -30,34 +27,67 @@ public class InventoryScript : MonoBehaviour {
 
         if (sw < 0)
         {
-            Debug.Log("Scrolling Down");
-            
+            if (canScrollDown)
+            {
+                Debug.Log("Scrolling Up");
+                hotbarSelector.transform.Translate(Vector3.left * 36);
+                pos--;
+            }
         }
         else if (sw > 0)
         {
-            Debug.Log("Scrolling Up");
+            if (canScrollUp)
+            {
+                Debug.Log("Scrolling Up");
+                hotbarSelector.transform.Translate(Vector3.right * 36);
+                pos++;
+            }
         }
-	}
+
+        if (pos == 1)
+        {
+            canScrollDown = false;
+        }
+        else
+        {
+            canScrollDown = true;
+        }
+
+        if (pos == 4)
+        {
+            canScrollUp = false;
+        }
+        else
+        {
+            canScrollUp = true;
+        }
+
+        playerScript.blockNum = pos;
+        inventoryTextGrass.text = playerScript.blockCounts[0].ToString();
+        inventoryTextDirt.text = playerScript.blockCounts[1].ToString();
+        inventoryTextSand.text = playerScript.blockCounts[2].ToString();
+        inventoryTextStone.text = playerScript.blockCounts[3].ToString();
+    }
 
     void AddBlockToInventory(int blockTex)
     {
         switch (blockTex)
         {
             case 1:
-                grassBlocks++;
-                inventoryTextGrass.text = grassBlocks.ToString();
+                playerScript.blockCounts[0]++;
+                
                 break;
             case 2:
-                dirtBlocks++;
-                inventoryTextDirt.text = dirtBlocks.ToString();
+                playerScript.blockCounts[1]++;
+                
                 break;
             case 3:
-                sandBlocks++;
-                inventoryTextSand.text = sandBlocks.ToString();
+                playerScript.blockCounts[2]++;
+                
                 break;
             case 4:
-                stoneBlocks++;
-                inventoryTextStone.text = stoneBlocks.ToString();
+                playerScript.blockCounts[3]++;
+                
                 break;
         }
     }
