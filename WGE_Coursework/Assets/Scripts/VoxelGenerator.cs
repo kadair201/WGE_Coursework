@@ -27,6 +27,17 @@ public class VoxelGenerator : MonoBehaviour
     
     public void Initialise()
     {
+        // Create the texture dictionary
+        CreateTextureNameCoordDictionary();
+
+#if UNITY_EDITOR
+        DestroyImmediate(GetComponent<MeshFilter>().sharedMesh, true);
+        GetComponent<MeshFilter>().sharedMesh = new Mesh();
+        mesh = GetComponent<MeshFilter>().sharedMesh;
+#else
+        mesh = GetComponent<MeshFilter>().mesh;
+#endif
+        numQuads = 0;
         // Initialise the mesh
         mesh = GetComponent<MeshFilter>().mesh;
         meshCollider = GetComponent<MeshCollider>();
@@ -36,8 +47,7 @@ public class VoxelGenerator : MonoBehaviour
         triIndexList = new List<int>();
         UVList = new List<Vector2>();
 
-        // Create the texture dictionary
-        CreateTextureNameCoordDictionary();
+        
     }
 
 

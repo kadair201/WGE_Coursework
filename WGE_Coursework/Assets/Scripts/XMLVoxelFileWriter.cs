@@ -6,7 +6,7 @@ public class XMLVoxelFileWriter
 { 
 
     // Write a voxel chunk to XML file
-    public static void SaveChunkToXMLFile(int[,,] voxelArray, string fileName, Vector3 position, Vector3 rotation)
+    public static void SaveChunkToXMLFile(int[,,] voxelArray, string fileName, Vector3 position)
     {
         XmlWriterSettings writerSettings = new XmlWriterSettings();
         writerSettings.Indent = true;
@@ -51,11 +51,6 @@ public class XMLVoxelFileWriter
         xmlWriter.WriteAttributeString("x", position.x.ToString());
         xmlWriter.WriteAttributeString("y", position.y.ToString());
         xmlWriter.WriteAttributeString("z", position.z.ToString());
-
-        xmlWriter.WriteStartElement("Rotation");
-        xmlWriter.WriteAttributeString("x", rotation.x.ToString());
-        xmlWriter.WriteAttributeString("y", rotation.y.ToString());
-        xmlWriter.WriteAttributeString("z", rotation.z.ToString());
 
         // End the root element
         xmlWriter.WriteEndElement();

@@ -33,11 +33,14 @@ public class VoxelChunk : MonoBehaviour
         player = GameObject.Find("Player");
     }
 
+
+
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "Save", player.transform.position, player.transform.eulerAngles);
+            XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "Save", player.transform.position);
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
@@ -209,5 +212,33 @@ public class VoxelChunk : MonoBehaviour
 
             OnEventBlockChanged(blockType);
         }
+    }
+
+
+
+
+    public void LoadChunk(string filename)
+    {
+        terrainArray = XMLVoxelFileWriter.LoadChunkFromXMLFile(16, filename);
+        CreateTerrain();
+        voxelGenerator.UpdateMesh();
+    }
+
+
+
+    public void SaveChunk(string filename)
+    {
+        XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "VoxelChunk", player.transform.position);
+    }
+
+
+
+
+    public void ClearChunk()
+    {
+        terrainArray = new int[chunkSize, chunkSize, chunkSize];
+        InitialiseTerrain();
+        CreateTerrain();
+        voxelGenerator.UpdateMesh();
     }
 }
