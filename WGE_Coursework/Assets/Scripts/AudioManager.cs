@@ -6,24 +6,49 @@ public class AudioManager : MonoBehaviour {
 
     // Variables 
     public AudioClip destroyBlockSound;
-    public AudioClip placeBlockSound;
-    
+    public AudioClip placeGrassBlockSound;
+    public AudioClip placeDirtBlockSound;
+    public AudioClip placeSandBlockSound;
+    public AudioClip placeStoneBlockSound;
+    public AudioSource audioSource;
 
 
 
 
-    // Play the Destroy Block Audio
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+
+
+
+    // Play the block audio for each block type
     void PlayBlockSound(int blockType)
     {
-        if (blockType == 0)
+        switch (blockType)
         {
-            GetComponent<AudioSource>().PlayOneShot(destroyBlockSound);
+            case 0:
+                // play the destroy block sound effect
+                audioSource.PlayOneShot(destroyBlockSound);
+                break;
+            case 1:
+                // play the grass placement sound effect
+                audioSource.PlayOneShot(placeGrassBlockSound);
+                break;
+            case 2:
+                audioSource.PlayOneShot(placeDirtBlockSound);
+                break;
+            case 3:
+                audioSource.PlayOneShot(placeSandBlockSound);
+                break;
+            case 4:
+                audioSource.PlayOneShot(placeStoneBlockSound);
+                break;
+            default:
+                audioSource.PlayOneShot(destroyBlockSound);
+                break;
         }
-        else
-        {
-            GetComponent<AudioSource>().PlayOneShot(placeBlockSound);
-        }
-        
     }
 
 
