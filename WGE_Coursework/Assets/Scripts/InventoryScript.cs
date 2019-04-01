@@ -8,58 +8,101 @@ public class InventoryScript : MonoBehaviour {
     int pos = 1;
     bool canScrollUp = true;
     bool canScrollDown = true;
+    bool grassSelected = true;
+    bool dirtSelected = false;
+    bool sandSelected = false;
+    bool stoneSelected = false;
     public Text inventoryTextGrass;
     public Text inventoryTextDirt;
     public Text inventoryTextSand;
     public Text inventoryTextStone;
-    public GameObject hotbarSelector;
+    public RawImage grass;
+    public RawImage dirt;
+    public RawImage sand;
+    public RawImage stone;
     public PlayerScript playerScript;
 
 	// Use this for initialization
 	void Start () {
         DroppedCubeScript.OnEventAddInventory += AddBlockToInventory;
-        Debug.Log(hotbarSelector.transform.position);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        float sw = Input.GetAxis("Mouse ScrollWheel");
-
-        if (sw < 0)
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if (canScrollDown)
-            {
-                Debug.Log("Scrolling Up");
-                hotbarSelector.transform.Translate(Vector3.left * 36);
-                pos--;
-            }
-        }
-        else if (sw > 0)
-        {
-            if (canScrollUp)
-            {
-                Debug.Log("Scrolling Up");
-                hotbarSelector.transform.Translate(Vector3.right * 36);
-                pos++;
-            }
+            pos = 1;
+            Color colour = grass.GetComponent<RawImage>().color;
+            colour.a = 1;
+            grass.GetComponent<RawImage>().color = colour;
+            grassSelected = true;
+            dirtSelected = false;
+            sandSelected = false;
+            stoneSelected = false;
         }
 
-        if (pos == 1)
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            canScrollDown = false;
-        }
-        else
-        {
-            canScrollDown = true;
+            pos = 2;
+            Color colour = dirt.GetComponent<RawImage>().color;
+            colour.a = 1;
+            dirt.GetComponent<RawImage>().color = colour;
+            grassSelected = false;
+            dirtSelected = true;
+            sandSelected = false;
+            stoneSelected = false;
         }
 
-        if (pos == 4)
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            canScrollUp = false;
+            pos = 3;
+            Color colour = sand.GetComponent<RawImage>().color;
+            colour.a = 1;
+            sand.GetComponent<RawImage>().color = colour;
+            grassSelected = false;
+            dirtSelected = false;
+            sandSelected = true;
+            stoneSelected = false;
         }
-        else
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            canScrollUp = true;
+            pos = 4;
+            Color colour = stone.GetComponent<RawImage>().color;
+            colour.a = 1;
+            stone.GetComponent<RawImage>().color = colour;
+            grassSelected = false;
+            dirtSelected = false;
+            sandSelected = false;
+            stoneSelected = true;
+        }
+
+        if (!grassSelected)
+        {
+            Color colour = grass.GetComponent<RawImage>().color;
+            colour.a = 0.5f;
+            grass.GetComponent<RawImage>().color = colour;
+        }
+
+        if (!dirtSelected)
+        {
+            Color colour = dirt.GetComponent<RawImage>().color;
+            colour.a = 0.5f;
+            dirt.GetComponent<RawImage>().color = colour;
+        }
+
+        if (!sandSelected)
+        {
+            Color colour = sand.GetComponent<RawImage>().color;
+            colour.a = 0.5f;
+            sand.GetComponent<RawImage>().color = colour;
+        }
+
+        if (!stoneSelected)
+        {
+            Color colour = stone.GetComponent<RawImage>().color;
+            colour.a = 0.5f;
+            stone.GetComponent<RawImage>().color = colour;
         }
 
         playerScript.blockNum = pos;

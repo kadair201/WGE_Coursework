@@ -614,8 +614,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -40, y: -33}
-  m_SizeDelta: {x: 160, y: 35.83}
+  m_AnchoredPosition: {x: -40, y: -195}
+  m_SizeDelta: {x: 160, y: 387.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &863548676
 MonoBehaviour:
@@ -651,7 +651,16 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'F1 to save
 
-    F2 to load save'
+    F2 to load save
+
+
+    1 for grass
+
+    2 for dirt
+
+    3 for sand
+
+    4 for stone'
 --- !u!222 &863548677
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -924,7 +933,10 @@ MonoBehaviour:
   inventoryTextDirt: {fileID: 534217381}
   inventoryTextSand: {fileID: 1847520434}
   inventoryTextStone: {fileID: 1629042089}
-  hotbarSelector: {fileID: 1422904187}
+  grass: {fileID: 1860611536}
+  dirt: {fileID: 252861663}
+  sand: {fileID: 232077086}
+  stone: {fileID: 1255038206}
   playerScript: {fileID: 74508111}
 --- !u!4 &925304315
 Transform:
@@ -1116,7 +1128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1422904188
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1561,7 +1573,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -36.3, y: 0}
+  m_AnchoredPosition: {x: -36.7, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1860611536
