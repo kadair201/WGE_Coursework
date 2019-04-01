@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class VoxelChunk : MonoBehaviour
 {
     // Variables
     VoxelGenerator voxelGenerator;
-    GameObject player;
+    public GameObject player;
+    public MouseLook mouseLook;
+    GameObject loadPanel;
+    InputField loadFileName;
 
     int[,,] terrainArray;
     int chunkSize = 16;
@@ -23,6 +28,8 @@ public class VoxelChunk : MonoBehaviour
     {
         voxelGenerator = GetComponent<VoxelGenerator>();
         terrainArray = new int[chunkSize, chunkSize, chunkSize];
+        loadPanel = GameObject.Find("LoadPanel");
+        loadFileName = loadPanel.GetComponentInChildren<InputField>();
 
         voxelGenerator.Initialise();
         InitialiseTerrain();
@@ -31,6 +38,20 @@ public class VoxelChunk : MonoBehaviour
 
         PlayerScript.OnEventSetBlock += SetBlock;
         player = GameObject.Find("Player");
+        loadPanel.SetActive(false);
+        LockCursor();
+    }
+
+    public void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
 
@@ -44,19 +65,8 @@ public class VoxelChunk : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            // Get terrainArray from XML file
-            terrainArray = XMLVoxelFileWriter.LoadChunkFromXMLFile(16, "Save");
-            if (terrainArray != null)
-            {
-                // Draw the correct faces
-                CreateTerrain();
-                // Update mesh info
-                voxelGenerator.UpdateMesh();
-            }
-            else
-            {
-                Debug.Log("No save file exists");
-            }
+            loadPanel.SetActive(true);
+            UnlockCursor();
         }
 
     }
@@ -240,5 +250,26 @@ public class VoxelChunk : MonoBehaviour
         InitialiseTerrain();
         CreateTerrain();
         voxelGenerator.UpdateMesh();
+    }
+
+
+
+
+    public void LoadButtonPressed()
+    {
+        string playerFileName = loadFileName.text;
+        terrainArray = XMLVoxelFileWriter.LoadChunkFromXMLFile(16, playerFileName);
+        if (terrainArray != null)
+        {
+            // Draw the correct faces
+            CreateTerrain();
+            // Update mesh info
+            voxelGenerator.UpdateMesh();
+            UnlockCursor();
+        }
+        else
+        {
+            loadFileName.text = "Nope.";
+        }
     }
 }

@@ -8,6 +8,7 @@ public class VoxelChunkInspector : Editor {
 
     public override void OnInspectorGUI()
     {
+        DrawDefaultInspector();
         //casting target to be voxel chunk
         VoxelChunk myTarget = (VoxelChunk)target;
         filename = EditorGUILayout.TextField(filename);
