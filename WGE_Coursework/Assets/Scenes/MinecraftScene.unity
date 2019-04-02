@@ -326,6 +326,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0,
     type: 2}
   m_PrefabInternal: {fileID: 1358975405}
+--- !u!114 &74508108 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11400000, guid: 5e9e851c0e142814dac026a256ba2ac0,
+    type: 2}
+  m_PrefabInternal: {fileID: 1358975405}
+  m_Script: {fileID: 11500000, guid: 05ec5cf00ca181d45a42ba1870e148c3, type: 3}
 --- !u!114 &74508111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,8 +345,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockNum: 0
   blockCounts: 00000000000000000000000000000000
-  mainCam: {fileID: 0}
-  voxChunk: {fileID: 0}
+  mainCam: {fileID: 534669904}
+  voxChunk: {fileID: 2138137585}
+  fpcontroller: {fileID: 74508108}
 --- !u!1 &149853393
 GameObject:
   m_ObjectHideFlags: 0

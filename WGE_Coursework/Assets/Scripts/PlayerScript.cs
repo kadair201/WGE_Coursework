@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class PlayerScript : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class PlayerScript : MonoBehaviour {
     public static event EventSetBlock OnEventSetBlock;
     public Camera mainCam;
     public VoxelChunk voxChunk;
+    public FirstPersonController fpcontroller;
 
 
 
@@ -19,7 +21,7 @@ public class PlayerScript : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !voxChunk.panelOpen)
         {
             Vector3 v;
             if (PickBlock(out v, 4, false))
@@ -28,7 +30,7 @@ public class PlayerScript : MonoBehaviour {
                 OnEventSetBlock(v, 0);
             }
         }
-        else if (Input.GetButtonDown("Fire2"))
+        else if (Input.GetButtonDown("Fire2") && !voxChunk.panelOpen)
         {
             if (blockCounts[blockNum-1] > 0)
             {
@@ -45,6 +47,22 @@ public class PlayerScript : MonoBehaviour {
         if (transform.position.y < -10)
         {
             transform.position = new Vector3(0, 5, 0);
+        }
+
+        if (voxChunk.panelOpen)
+        {
+            Debug.Log("Freezing Player");
+            fpcontroller.m_WalkSpeed = 0;
+            fpcontroller.m_RunSpeed = 0;
+            GameObject player = GameObject.Find("Player");
+            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        }
+        else
+        {
+            fpcontroller.m_WalkSpeed = 5;
+            fpcontroller.m_RunSpeed = 10;
+            GameObject player = GameObject.Find("Player");
+            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
         
     }
