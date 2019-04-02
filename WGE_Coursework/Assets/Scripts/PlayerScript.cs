@@ -10,6 +10,8 @@ public class PlayerScript : MonoBehaviour {
     public int[] blockCounts;
     public delegate void EventSetBlock(Vector3 index, int blockType);
     public static event EventSetBlock OnEventSetBlock;
+    public Camera mainCam;
+    public VoxelChunk voxChunk;
 
 
 
@@ -44,6 +46,7 @@ public class PlayerScript : MonoBehaviour {
         {
             transform.position = new Vector3(0, 5, 0);
         }
+        
     }
 
 

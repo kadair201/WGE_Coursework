@@ -10,6 +10,7 @@ public class VoxelChunk : MonoBehaviour
     VoxelGenerator voxelGenerator;
     public GameObject player;
     public MouseLook mouseLook;
+    public bool panelOpen = false;
     GameObject loadPanel;
     InputField loadFileName;
 
@@ -67,6 +68,7 @@ public class VoxelChunk : MonoBehaviour
         {
             loadPanel.SetActive(true);
             UnlockCursor();
+            panelOpen = true;
         }
 
     }
@@ -265,7 +267,9 @@ public class VoxelChunk : MonoBehaviour
             CreateTerrain();
             // Update mesh info
             voxelGenerator.UpdateMesh();
-            UnlockCursor();
+            LockCursor();
+            loadPanel.SetActive(false);
+            panelOpen = false;
         }
         else
         {

@@ -339,6 +339,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockNum: 0
   blockCounts: 00000000000000000000000000000000
+  mainCam: {fileID: 0}
+  voxChunk: {fileID: 0}
 --- !u!1 &149853393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2571,3 +2573,4 @@ MonoBehaviour:
     smoothTime: 5
     lockCursor: 0
     m_cursorIsLocked: 1
+  panelOpen: 0
