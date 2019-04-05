@@ -14,18 +14,18 @@ public class InventoryPanelScript : MonoBehaviour {
     public GameObject inventoryPanel;
     public VoxelChunk voxChunk;
     public FirstPersonController fpscript;
+    public InventoryItemScript invItemScript;
     public PlayerScript playerScript;
     public InputField searchBar;
     public string search;
 
     public bool invPanelOpen = false;
     public bool isSortedHighToLow = false;
-
-    int[] blockAmounts;
+    
     public Sprite[] blockImage;
     public GameObject[] panel;
+    InventoryItemScript[] inventoryItems;
     public string[] blockName;
-
 
 
     // Use this for initialization
@@ -33,7 +33,9 @@ public class InventoryPanelScript : MonoBehaviour {
     {
         inventoryPanel.SetActive(false);
         invPanelOpen = false;
-        blockAmounts = new int[4];
+        inventoryItems = new InventoryItemScript[4];
+
+        
     }
 	
 	// Update is called once per frame
@@ -42,7 +44,10 @@ public class InventoryPanelScript : MonoBehaviour {
         // Populate blockAmounts array
         for (int i = 0; i < 4; i++)
         {
-            blockAmounts[i] = playerScript.blockCounts[i];
+            inventoryItems[i] = new InventoryItemScript();
+            inventoryItems[i].itemCount = playerScript.blockCounts[i];
+            inventoryItems[i].itemName = blockName[i];
+            inventoryItems[i].itemImage = blockImage[i];
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha0))
@@ -104,19 +109,19 @@ public class InventoryPanelScript : MonoBehaviour {
             isSortedHighToLow = true;
         }
 
-        Sort(blockAmounts);
+        Sort(inventoryItems);
     }
 
 
 
-    int[] Sort(int[] amounts)
+    InventoryItemScript[] Sort(InventoryItemScript[] amounts)
     {
         // if there is only one number, don't try to split into two arrays
         if (amounts.Length <= 1) return amounts;
 
         int arrayLength = amounts.Length / 2;
-        int[] firstHalf = new int[arrayLength];
-        int[] secondHalf = new int[arrayLength];
+        InventoryItemScript[] firstHalf = new InventoryItemScript[arrayLength];
+        InventoryItemScript[] secondHalf = new InventoryItemScript[arrayLength];
 
         for (int i = 0; i < amounts.Length; i++)
         {
@@ -144,39 +149,56 @@ public class InventoryPanelScript : MonoBehaviour {
             amounts = MergeHighToLow(firstHalf, secondHalf);
         }
 
+        int[] numOfPanels = { 0, 0, 0, 0 };
+
         // once the sorting is finished
         if (amounts.Length == 4)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < amounts.Length; i++)
+            {
+                panel[i].GetComponent<Image>().sprite = amounts[i].itemImage;
+                panel[i].GetComponentInChildren<Text>().text = amounts[i].itemName + ": " + amounts[i].itemCount;
+            }
+
+            /*for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
                     // compare the original block positions with the new positions
-                    if (playerScript.blockCounts[i] == amounts[j])
+                    if (amounts[j] == playerScript.blockCounts[i])
                     {
-                        // change the image to reflect the new block in that position
-                        panel[j].GetComponent<Image>().sprite = blockImage[i];
-                        // change the text 
-                        panel[j].GetComponentInChildren<Text>().text = blockName[i] + ": " + amounts[j];
-
+                        if (amounts[j] != 0)
+                        {
+                            // change the image to reflect the new block in that position
+                            panel[j].GetComponent<Image>().sprite = blockImage[i];
+                            // change the text 
+                            panel[j].GetComponentInChildren<Text>().text = blockName[i] + ": " + amounts[j];
+                        }
+                        else
+                        {
+                            panel[j].GetComponent<Image>().sprite = null;
+                            panel[j].GetComponentInChildren<Text>().text = null;
+                        }
                     }
                 }
-            }
+
+            }*/
         }
+        
         return amounts;
     }
 
 
 
-    int[] MergeLowToHigh(int[] a, int[] b)
+    InventoryItemScript[] MergeLowToHigh(InventoryItemScript[] a, InventoryItemScript[] b)
     {
-        int[] merged = new int[a.Length + b.Length];
+        InventoryItemScript[] merged = new InventoryItemScript[a.Length + b.Length];
         int i, j, m;
         i = j = m = 0;
 
         while (i < a.Length && j < b.Length)
         {
-            if (a[i] <= b[j])
+            if (a[i].itemCount <= b[j].itemCount)
             {
                 merged[m] = a[i];
                 i++;
@@ -214,15 +236,15 @@ public class InventoryPanelScript : MonoBehaviour {
 
 
 
-    int[] MergeHighToLow(int[] a, int[] b)
+    InventoryItemScript[] MergeHighToLow(InventoryItemScript[] a, InventoryItemScript[] b)
     {
-        int[] merged = new int[a.Length + b.Length];
+        InventoryItemScript[] merged = new InventoryItemScript[a.Length + b.Length];
         int i, j, m;
         i = j = m = 0;
 
         while (i < a.Length && j < b.Length)
         {
-            if (a[i] >= b[j])
+            if (a[i].itemCount >= b[j].itemCount)
             {
                 merged[m] = a[i];
                 i++;
