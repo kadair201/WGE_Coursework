@@ -91,19 +91,20 @@ public class InventoryPanelScript : MonoBehaviour {
         
         if (isSortedHighToLow)
         {
-            SortLowToHigh(blockAmounts);
+            isSortedHighToLow = false;
         }
         else
         {
-            SortHighToLow(blockAmounts);
+            isSortedHighToLow = true;
         }
+
+        Sort(blockAmounts);
     }
 
 
 
-    int[] SortLowToHigh(int[] amounts)
+    int[] Sort(int[] amounts)
     {
-        isSortedHighToLow = false;
         // if there is only one number, don't try to split into two arrays
         if (amounts.Length <= 1) return amounts;
 
@@ -125,10 +126,17 @@ public class InventoryPanelScript : MonoBehaviour {
             }
         }
 
-        firstHalf = SortLowToHigh(firstHalf);
-        secondHalf = SortLowToHigh(secondHalf);
-
-        amounts = MergeLowToHigh(firstHalf, secondHalf);
+        firstHalf = Sort(firstHalf);
+        secondHalf = Sort(secondHalf);
+        
+        if (!isSortedHighToLow)
+        {
+            amounts = MergeLowToHigh(firstHalf, secondHalf);
+        }
+        else
+        {
+            amounts = MergeHighToLow(firstHalf, secondHalf);
+        }
 
         if (amounts.Length == 4)
         {
@@ -192,55 +200,6 @@ public class InventoryPanelScript : MonoBehaviour {
         }
 
         return merged;
-    }
-
-
-
-    int[] SortHighToLow(int[] amounts)
-    {
-        isSortedHighToLow = true;
-        // if there is only one number, don't try to split into two arrays
-        if (amounts.Length <= 1) return amounts;
-
-        int arrayLength = amounts.Length / 2;
-        int[] firstHalf = new int[arrayLength];
-        int[] secondHalf = new int[arrayLength];
-
-        for (int i = 0; i < amounts.Length; i++)
-        {
-            if (i <= arrayLength - 1)
-            {
-                firstHalf[i] = amounts[i];
-                //Debug.Log("number " + firstHalf[i] + " added to firstHalf");
-            }
-            else if (i > arrayLength - 1)
-            {
-                secondHalf[i - arrayLength] = amounts[i];
-                //Debug.Log("number " + secondHalf[i - arrayLength] + " added to secondHalf");
-            }
-        }
-
-        firstHalf = SortHighToLow(firstHalf);
-        secondHalf = SortHighToLow(secondHalf);
-
-        amounts = MergeHighToLow(firstHalf, secondHalf);
-
-        if (amounts.Length == 4)
-        {
-            string[] blockName = { "Grass", "Dirt", "Sand", "Stone" };
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (playerScript.blockCounts[i] == amounts[j])
-                    {
-                        panel[j].GetComponent<Image>().sprite = blockImage[i];
-                        panel[j].GetComponentInChildren<Text>().text = blockName[i] + ": " + amounts[j];
-                    }
-                }
-            }
-        }
-        return amounts;
     }
 
 
