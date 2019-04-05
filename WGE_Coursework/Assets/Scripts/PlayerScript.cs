@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour {
     public static event EventSetBlock OnEventSetBlock;
     public Camera mainCam;
     public VoxelChunk voxChunk;
+    public InventoryPanelScript invPanelScript;
     public FirstPersonController fpcontroller;
 
 
@@ -21,7 +22,7 @@ public class PlayerScript : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        if (Input.GetButtonDown("Fire1") && !voxChunk.panelOpen)
+        if (Input.GetButtonDown("Fire1") && !voxChunk.panelOpen && !invPanelScript.invPanelOpen)
         {
             Vector3 v;
             if (PickBlock(out v, 4, false))
@@ -30,7 +31,7 @@ public class PlayerScript : MonoBehaviour {
                 OnEventSetBlock(v, 0);
             }
         }
-        else if (Input.GetButtonDown("Fire2") && !voxChunk.panelOpen)
+        else if (Input.GetButtonDown("Fire2") && !voxChunk.panelOpen && !invPanelScript.invPanelOpen)
         {
             if (blockCounts[blockNum-1] > 0)
             {
@@ -51,18 +52,13 @@ public class PlayerScript : MonoBehaviour {
 
         if (voxChunk.panelOpen)
         {
-            Debug.Log("Freezing Player");
             fpcontroller.m_WalkSpeed = 0;
             fpcontroller.m_RunSpeed = 0;
-            GameObject player = GameObject.Find("Player");
-            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         }
         else
         {
             fpcontroller.m_WalkSpeed = 5;
             fpcontroller.m_RunSpeed = 10;
-            GameObject player = GameObject.Find("Player");
-            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
         
     }

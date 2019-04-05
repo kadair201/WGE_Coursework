@@ -40,6 +40,7 @@ public class VoxelChunk : MonoBehaviour
         PlayerScript.OnEventSetBlock += SetBlock;
         player = GameObject.Find("Player");
         loadPanel.SetActive(false);
+        panelOpen = false;
         LockCursor();
     }
 
@@ -47,12 +48,14 @@ public class VoxelChunk : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        player.GetComponent<FirstPersonController>().frozen = false;
     }
 
     public void UnlockCursor()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        player.GetComponent<FirstPersonController>().frozen = true;
     }
 
 
@@ -66,9 +69,18 @@ public class VoxelChunk : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            loadPanel.SetActive(true);
-            UnlockCursor();
-            panelOpen = true;
+            if (!panelOpen)
+            {
+                loadPanel.SetActive(true);
+                UnlockCursor();
+                panelOpen = true;
+            }
+            else
+            {
+                loadPanel.SetActive(false);
+                LockCursor();
+                panelOpen = false;
+            }
         }
 
     }
@@ -273,7 +285,7 @@ public class VoxelChunk : MonoBehaviour
         }
         else
         {
-            loadFileName.text = "Nope.";
+            Debug.Log("Nope.");
         }
     }
 }
