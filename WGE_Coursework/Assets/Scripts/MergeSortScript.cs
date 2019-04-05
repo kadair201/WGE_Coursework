@@ -29,10 +29,10 @@ public class MergeSortScript : MonoBehaviour {
         MergeSort(numbers);
     }
 
-    void MergeSort(int[] numbers)
+    int[] MergeSort(int[] numbers)
     {
         // if there is only one number, don't try to split into two arrays
-        if (numbers.Length <= 1) return;
+        if (numbers.Length <= 1) return numbers;
 
         int arrayLength = numbers.Length / 2;
         int[] firstHalf = new int[arrayLength];
@@ -52,19 +52,16 @@ public class MergeSortScript : MonoBehaviour {
             }
         }
 
-        MergeSort(firstHalf);
-        MergeSort(secondHalf);
+        firstHalf = MergeSort(firstHalf);
+        secondHalf = MergeSort(secondHalf);
 
         numbers = Merge(firstHalf, secondHalf);
-
-        //if (numbers.Length == initialNumbersLength)
-        //{
-            for (int x = 0; x < numbers.Length; x++)
-            {
-                Debug.Log("Number " + x + " : " + numbers[x]);
-            }
-        //}
-        
+   
+        if (numbers.Length == initialNumbersLength)
+        {
+            Debug.Log("Numbers: " + numbers[0] + ", " + numbers[1] + ", " + numbers[2] + ", " + numbers[3]);
+        }
+        return numbers;
     }
 
     int[] Merge(int[] a, int[] b)
@@ -92,7 +89,7 @@ public class MergeSortScript : MonoBehaviour {
         if (i < a.Length)
         {
             // add the rest of the elements in a to the end of merged
-            for (int k = 0; k < a.Length; k++)
+            for (int k = i; k < a.Length; k++)
             {
                 merged[m] = a[k];
                 m++;
@@ -101,7 +98,7 @@ public class MergeSortScript : MonoBehaviour {
         else
         {
             // add the rest of the elements in b to the end of merged
-            for (int k = 0; k < b.Length; k++)
+            for (int k = j; k < b.Length; k++)
             {
                 merged[m] = b[k];
                 m++;
