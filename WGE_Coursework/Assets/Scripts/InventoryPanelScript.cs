@@ -15,15 +15,16 @@ public class InventoryPanelScript : MonoBehaviour {
     public VoxelChunk voxChunk;
     public FirstPersonController fpscript;
     public PlayerScript playerScript;
+    public InputField searchBar;
+    public string search;
 
-    //public string itemName;
-    //public int itemAmount;
     public bool invPanelOpen = false;
     public bool isSortedHighToLow = false;
 
     int[] blockAmounts;
     public Sprite[] blockImage;
     public GameObject[] panel;
+    public string[] blockName;
 
 
 
@@ -38,7 +39,13 @@ public class InventoryPanelScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-		if (Input.GetKeyDown(KeyCode.I))
+        // Populate blockAmounts array
+        for (int i = 0; i < 4; i++)
+        {
+            blockAmounts[i] = playerScript.blockCounts[i];
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             if (invPanelOpen)
             {
@@ -53,6 +60,8 @@ public class InventoryPanelScript : MonoBehaviour {
                 invPanelOpen = true;
                 // if the inventory panel is closed, open it
                 inventoryPanel.SetActive(true);
+                SortByAmount();
+                searchBar.text = "";
                 // unfreeze the cursor
                 voxChunk.UnlockCursor();
             }
@@ -68,7 +77,10 @@ public class InventoryPanelScript : MonoBehaviour {
             fpscript.m_RunSpeed = 0;
             fpscript.m_WalkSpeed = 0;
         }
-	}
+
+        search = searchBar.text;
+        SearchByName(search.ToLower());
+    }
 
     public void SortAlphabetically()
     {
@@ -83,12 +95,6 @@ public class InventoryPanelScript : MonoBehaviour {
 
     public void SortByAmount()
     {
-        // Populate blockAmounts array
-        for (int i = 0; i < 4; i++)
-        {
-            blockAmounts[i] = playerScript.blockCounts[i];
-        }
-        
         if (isSortedHighToLow)
         {
             isSortedHighToLow = false;
@@ -138,17 +144,21 @@ public class InventoryPanelScript : MonoBehaviour {
             amounts = MergeHighToLow(firstHalf, secondHalf);
         }
 
+        // once the sorting is finished
         if (amounts.Length == 4)
         {
-            string[] blockName = { "Grass", "Dirt", "Sand", "Stone" };
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
+                    // compare the original block positions with the new positions
                     if (playerScript.blockCounts[i] == amounts[j])
                     {
+                        // change the image to reflect the new block in that position
                         panel[j].GetComponent<Image>().sprite = blockImage[i];
+                        // change the text 
                         panel[j].GetComponentInChildren<Text>().text = blockName[i] + ": " + amounts[j];
+
                     }
                 }
             }
@@ -254,8 +264,35 @@ public class InventoryPanelScript : MonoBehaviour {
 
 
 
-    public void SearchByName()
-    {
-
+    public void SearchByName(string playerInput)
+    { 
+        for (int i = 0; i < blockName.Length; i++)
+        {
+            if (playerInput != "")
+            {
+                if (!panel[i].GetComponentInChildren<Text>().text.ToLower().Contains(playerInput))
+                {
+                    // Reduce opacity of all panels that do not match the player input
+                    Color color = panel[i].GetComponent<Image>().color;
+                    color.a = 0.1f;
+                    panel[i].GetComponent<Image>().color = color;
+                }
+                else
+                {
+                    // if the item matches the player input, make opacity 1
+                    Color color = panel[i].GetComponent<Image>().color;
+                    color.a = 1;
+                    panel[i].GetComponent<Image>().color = color;
+                }
+            }
+            else
+            {
+                // if there is no input, make all the panels' opacity 1
+                Color color = panel[i].GetComponent<Image>().color;
+                color.a = 1;
+                panel[i].GetComponent<Image>().color = color;
+            }
+            
+        }
     }
 }

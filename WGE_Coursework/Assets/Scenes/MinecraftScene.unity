@@ -1734,6 +1734,8 @@ MonoBehaviour:
   voxChunk: {fileID: 2138137585}
   fpscript: {fileID: 74508108}
   playerScript: {fileID: 74508111}
+  searchBar: {fileID: 1632861329}
+  search: 
   invPanelOpen: 0
   isSortedHighToLow: 0
   blockImage:
@@ -1746,6 +1748,11 @@ MonoBehaviour:
   - {fileID: 1117283956}
   - {fileID: 672053522}
   - {fileID: 1109505704}
+  blockName:
+  - Grass
+  - Dirt
+  - Sand
+  - Stone
 --- !u!1 &936119404
 GameObject:
   m_ObjectHideFlags: 0
