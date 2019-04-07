@@ -1335,18 +1335,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'F1 to save
-
-    F2 to load save
-
-
-    1 for grass
-
-    2 for dirt
-
-    3 for sand
-
-    4 for stone'
+  m_Text: "F1 to save\nF2 to load save\n\n1 for grass\n2 for dirt\n3 for sand\n4 for
+    stone\n0 to open/close\n   inventory"
 --- !u!222 &863548677
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1765,9 +1755,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8fedb321f9a3464cb3a59e19df97939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 
-  itemCount: 0
-  itemImage: {fileID: 0}
 --- !u!1 &936119404
 GameObject:
   m_ObjectHideFlags: 0

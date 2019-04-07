@@ -14,32 +14,37 @@ public class InventoryPanelScript : MonoBehaviour {
     public GameObject inventoryPanel;
     public VoxelChunk voxChunk;
     public FirstPersonController fpscript;
-    public InventoryItemScript invItemScript;
     public PlayerScript playerScript;
     public InputField searchBar;
     public string search;
 
     public bool invPanelOpen = false;
     public bool isSortedHighToLow = false;
-    
+    public bool isSortedAtoZ = false;
+
     public Sprite[] blockImage;
     public GameObject[] panel;
     InventoryItemScript[] inventoryItems;
     public string[] blockName;
 
+    delegate int SortType(InventoryItemScript a, InventoryItemScript b);
+
+
+
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         inventoryPanel.SetActive(false);
         invPanelOpen = false;
         inventoryItems = new InventoryItemScript[4];
-
-        
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+
+
+
+    // Update is called once per frame
+    void Update()
     {
         // Populate blockAmounts array
         for (int i = 0; i < 4; i++)
@@ -87,10 +92,55 @@ public class InventoryPanelScript : MonoBehaviour {
         SearchByName(search.ToLower());
     }
 
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////// Start of Sorting By Name ///////////////////////////////////////////////////////////////////////////////////////
+    
+
+
+
     public void SortAlphabetically()
     {
-        
+        SortType sortBy = null;
+        if (isSortedAtoZ)
+        {
+            isSortedAtoZ = false;
+            sortBy = new SortType(SortZtoA);
+        }
+        else
+        {
+            isSortedAtoZ = true;
+            sortBy = new SortType(SortAtoZ);
+        }
+
+        Sort(inventoryItems, sortBy);
     }
+
+
+
+
+    int SortAtoZ(InventoryItemScript a, InventoryItemScript b)
+    {
+        Debug.Log("item a: " + a.itemName + " item b: " + b.itemName);
+        return string.Compare(a.itemName, b.itemName);
+    }
+
+
+
+
+    int SortZtoA(InventoryItemScript a, InventoryItemScript b)
+    {
+        Debug.Log("item a: " + a.itemName + " item b: " + b.itemName);
+        return string.Compare(b.itemName, a.itemName);
+    }
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////// End of Sorting By Name ///////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
@@ -98,23 +148,60 @@ public class InventoryPanelScript : MonoBehaviour {
 
 
 
+
     public void SortByAmount()
     {
+        SortType sortBy = null;
         if (isSortedHighToLow)
         {
             isSortedHighToLow = false;
+            sortBy = new SortType(SortLowToHigh);
         }
         else
         {
             isSortedHighToLow = true;
+            sortBy = new SortType(SortHighToLow);
         }
 
-        Sort(inventoryItems);
+        Sort(inventoryItems, sortBy);
     }
 
 
 
-    InventoryItemScript[] Sort(InventoryItemScript[] amounts)
+
+    int SortHighToLow(InventoryItemScript a, InventoryItemScript b)
+    {
+        Debug.Log("a: " + a.itemCount + " b: " + b.itemCount);
+        if (a.itemCount > b.itemCount)
+        {
+            return -1;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
+
+
+
+    int SortLowToHigh(InventoryItemScript a, InventoryItemScript b)
+    {
+        Debug.Log("a: " + a.itemCount + " b: " + b.itemCount);
+        if (a.itemCount < b.itemCount)
+        {
+            return -1;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
+
+
+
+    InventoryItemScript[] Sort(InventoryItemScript[] amounts, SortType sortType)
     {
         // if there is only one number, don't try to split into two arrays
         if (amounts.Length <= 1) return amounts;
@@ -137,19 +224,17 @@ public class InventoryPanelScript : MonoBehaviour {
             }
         }
 
-        firstHalf = Sort(firstHalf);
-        secondHalf = Sort(secondHalf);
-        
+        firstHalf = Sort(firstHalf, sortType);
+        secondHalf = Sort(secondHalf, sortType);
+
         if (!isSortedHighToLow)
         {
-            amounts = MergeLowToHigh(firstHalf, secondHalf);
+            amounts = Merge(firstHalf, secondHalf, sortType);
         }
         else
         {
-            amounts = MergeHighToLow(firstHalf, secondHalf);
+            amounts = Merge(firstHalf, secondHalf, sortType);
         }
-
-        int[] numOfPanels = { 0, 0, 0, 0 };
 
         // once the sorting is finished
         if (amounts.Length == 4)
@@ -159,30 +244,7 @@ public class InventoryPanelScript : MonoBehaviour {
                 panel[i].GetComponent<Image>().sprite = amounts[i].itemImage;
                 panel[i].GetComponentInChildren<Text>().text = amounts[i].itemName + ": " + amounts[i].itemCount;
             }
-
-            /*for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    // compare the original block positions with the new positions
-                    if (amounts[j] == playerScript.blockCounts[i])
-                    {
-                        if (amounts[j] != 0)
-                        {
-                            // change the image to reflect the new block in that position
-                            panel[j].GetComponent<Image>().sprite = blockImage[i];
-                            // change the text 
-                            panel[j].GetComponentInChildren<Text>().text = blockName[i] + ": " + amounts[j];
-                        }
-                        else
-                        {
-                            panel[j].GetComponent<Image>().sprite = null;
-                            panel[j].GetComponentInChildren<Text>().text = null;
-                        }
-                    }
-                }
-
-            }*/
+            
         }
         
         return amounts;
@@ -190,49 +252,53 @@ public class InventoryPanelScript : MonoBehaviour {
 
 
 
-    InventoryItemScript[] MergeLowToHigh(InventoryItemScript[] a, InventoryItemScript[] b)
+
+    InventoryItemScript[] Merge(InventoryItemScript[] left, InventoryItemScript[] right, SortType sortType)
     {
-        InventoryItemScript[] merged = new InventoryItemScript[a.Length + b.Length];
+        InventoryItemScript[] merged = new InventoryItemScript[left.Length + right.Length];
         int i, j, m;
         i = j = m = 0;
 
-        while (i < a.Length && j < b.Length)
+        while (i < left.Length && j < right.Length)
         {
-            if (a[i].itemCount <= b[j].itemCount)
+            int result = sortType(left[i], right[j]);
+
+            if (result == -1)
             {
-                merged[m] = a[i];
+                merged[m] = left[i];
                 i++;
                 m++;
             }
             else
             {
-                merged[m] = b[j];
+                merged[m] = right[j];
                 j++;
                 m++;
             }
         }
 
-        if (i < a.Length)
+        if (i < left.Length)
         {
             // add the rest of the elements in a to the end of merged
-            for (int k = i; k < a.Length; k++)
+            for (int k = i; k < left.Length; k++)
             {
-                merged[m] = a[k];
+                merged[m] = left[k];
                 m++;
             }
         }
         else
         {
             // add the rest of the elements in b to the end of merged
-            for (int k = j; k < b.Length; k++)
+            for (int k = j; k < right.Length; k++)
             {
-                merged[m] = b[k];
+                merged[m] = right[k];
                 m++;
             }
         }
 
         return merged;
     }
+
 
 
 
@@ -282,7 +348,9 @@ public class InventoryPanelScript : MonoBehaviour {
 
 
 
+
     ///////////////////////////////////////////////////////////////////////////// End of Sorting By Amount ///////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
@@ -290,6 +358,7 @@ public class InventoryPanelScript : MonoBehaviour {
     { 
         for (int i = 0; i < blockName.Length; i++)
         {
+            // if player input is not null
             if (playerInput != "")
             {
                 if (!panel[i].GetComponentInChildren<Text>().text.ToLower().Contains(playerInput))
@@ -309,7 +378,7 @@ public class InventoryPanelScript : MonoBehaviour {
             }
             else
             {
-                // if there is no input, make all the panels' opacity 1
+                // if there is no input, make all the panels' opacity 1 (i.e. 100% opaque)
                 Color color = panel[i].GetComponent<Image>().color;
                 color.a = 1;
                 panel[i].GetComponent<Image>().color = color;
