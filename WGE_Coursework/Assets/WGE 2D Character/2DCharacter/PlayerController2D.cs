@@ -16,6 +16,9 @@ public class PlayerController2D : MonoBehaviour {
     public event JumpPressedInput _jumpPressedInput;
     public event DashPressedInput _dashPressedInput;
 
+    public event PlayerMoving playerMoveEvent;
+    public delegate void PlayerMoving(Vector2 movement);
+
     // Use this for initialization
     void Start () {
 		
@@ -44,5 +47,6 @@ public class PlayerController2D : MonoBehaviour {
         }
 
         _hMoveInput(hMove);
-	}
+        //playerMoveEvent(new Vector2(hMove, vMove));
+    }
 }

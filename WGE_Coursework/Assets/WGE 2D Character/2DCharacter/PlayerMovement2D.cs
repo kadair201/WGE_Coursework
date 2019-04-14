@@ -170,7 +170,6 @@ public class PlayerMovement2D : MonoBehaviour {
         _dashReloadHandle = null;
         _rBody.gravityScale = _jumpNegGravity;
         SwitchState(MovementState.IN_AIR);
-        Debug.Log("DashEnd");
     }
 }
 
