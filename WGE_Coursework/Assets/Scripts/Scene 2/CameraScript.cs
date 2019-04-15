@@ -4,48 +4,36 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
 
-    public PlayerController2D playerController;
-    Rigidbody rb;
-    public float lerpAmount;
-    public float lerpTime;
+    public GameObject player;
+    PlayerController2D playerController;
+    public float xLerpTime;
+    public float yLerpTime;
+    public float xWiggle;
 
-	// Use this for initialization
-	void Start () {
-        playerController = GetComponent<PlayerController2D>();
-        //rb = playerController.GetComponent<Rigidbody>();
-        playerController._hMoveInput += PlayerMoving;
+    // Use this for initialization
+    void Start () {
+        playerController = player.GetComponent<PlayerController2D>();
+        playerController._jumpReleaseInput += CameraShake;
 	}
 
-    void OnDisable()
-    {
-        
-    }
-
     // Update is called once per frame
-    void Update () {
-        
+    void FixedUpdate () {
+        float xLerp = Mathf.Lerp(transform.position.x, player.transform.position.x, xLerpTime);
+        float yLerp = Mathf.Lerp(transform.position.y, player.transform.position.y, yLerpTime);
+        transform.position = new Vector3(xLerp, yLerp, -12);
     }
 
-    public void PlayerMoving(float movement)
+    void CameraShake()
     {
-        Debug.Log(movement);
-        StartCoroutine(LerpPosition(transform.position, new Vector2(transform.position.x + movement, transform.position.y), lerpTime));
+        StartCoroutine(Wiggle());
     }
 
-
-    IEnumerator LerpPosition(Vector2 start, Vector2 end, float maxTime)
+    IEnumerator Wiggle()
     {
-        float t = 0;
-        while (t < maxTime)
-        {
-            t += Time.deltaTime;
-            transform.position = Vector3.Lerp(start, end, t / maxTime);
-            if (t >= maxTime)
-            {
-                transform.position = end;
-            }
-            yield return null;
-        }
+        transform.Translate(Vector3.left * xWiggle);
+        yield return new WaitForSeconds(0.05f);
+        transform.Translate(Vector3.right * xWiggle * 2);
+        yield return new WaitForSeconds(0.05f);
+        transform.Translate(Vector3.left * xWiggle);
     }
-
 }
