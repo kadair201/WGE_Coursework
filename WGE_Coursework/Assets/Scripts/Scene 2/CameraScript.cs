@@ -13,7 +13,7 @@ public class CameraScript : MonoBehaviour {
     public float yWiggle;
     public float zoomSpeed;
     public float camSize;
-    public float speed;
+    //public float speed;
     bool zooming = false;
     public Camera mainCam;
     GameObject lerpSubject;
@@ -41,8 +41,17 @@ public class CameraScript : MonoBehaviour {
         else
         {
             playerController.canMove = false;
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                lerpSubject = player;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                lerpSubject = GameObject.Find("NPC");
+            }
         }
-        
     }
 
     public void CameraShake()
@@ -53,6 +62,7 @@ public class CameraScript : MonoBehaviour {
     public void FocusOnSubject(GameObject subject)
     {
         StartCoroutine(Zoom());
+        zooming = true;
         lerpSubject = subject;
         
     }
@@ -74,8 +84,8 @@ public class CameraScript : MonoBehaviour {
         do
         {
             mainCam.orthographicSize -= camSize;
-            yield return new WaitForSeconds(zoomSpeed * speed);
-            speed /= 2;
+            yield return new WaitForSeconds(zoomSpeed);
+            //speed /= 2;
         } while (mainCam.orthographicSize > 2);
     }
 }

@@ -443,9 +443,8 @@ MonoBehaviour:
   yLerpTime: 0.5
   xWiggle: 0.05
   yWiggle: 0.1
-  zoomSpeed: 0.01
-  camSize: 0.2
-  speed: 10
+  zoomSpeed: 0.005
+  camSize: 0.5
   mainCam: {fileID: 609484270}
 --- !u!1 &732672746
 GameObject:
