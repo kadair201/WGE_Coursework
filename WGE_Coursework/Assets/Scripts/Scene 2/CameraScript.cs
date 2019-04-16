@@ -6,27 +6,55 @@ public class CameraScript : MonoBehaviour {
 
     public GameObject player;
     PlayerMovement2D playerMovement;
+    PlayerController2D playerController;
     public float xLerpTime;
     public float yLerpTime;
     public float xWiggle;
     public float yWiggle;
+    public float zoomSpeed;
+    public float camSize;
+    public float speed;
+    bool zooming = false;
+    public Camera mainCam;
+    GameObject lerpSubject;
 
     // Use this for initialization
     void Start () {
         playerMovement = player.GetComponent<PlayerMovement2D>();
+        playerController = player.GetComponent<PlayerController2D>();
         playerMovement._cameraWiggle += CameraShake;
+        playerController._cameraZoom += FocusOnSubject;
+        lerpSubject = player;
 	}
 
     // Update is called once per frame
     void FixedUpdate () {
-        float xLerp = Mathf.Lerp(transform.position.x, player.transform.position.x, xLerpTime);
-        float yLerp = Mathf.Lerp(transform.position.y, player.transform.position.y, yLerpTime);
+
+        float xLerp = Mathf.Lerp(transform.position.x, lerpSubject.transform.position.x, xLerpTime);
+        float yLerp = Mathf.Lerp(transform.position.y, lerpSubject.transform.position.y, yLerpTime);
         transform.position = new Vector3(xLerp, yLerp, -12);
+
+        if (!zooming)
+        {
+            playerController.canMove = true;
+        }
+        else
+        {
+            playerController.canMove = false;
+        }
+        
     }
 
     public void CameraShake()
     {
         StartCoroutine(Wiggle());
+    }
+
+    public void FocusOnSubject(GameObject subject)
+    {
+        StartCoroutine(Zoom());
+        lerpSubject = subject;
+        
     }
 
     IEnumerator Wiggle()
@@ -39,5 +67,15 @@ public class CameraScript : MonoBehaviour {
         yield return new WaitForSeconds(0.01f);
         transform.Translate(Vector3.left * xWiggle);
         transform.Translate(Vector3.up * yWiggle);
+    }
+
+    IEnumerator Zoom()
+    {
+        do
+        {
+            mainCam.orthographicSize -= camSize;
+            yield return new WaitForSeconds(zoomSpeed * speed);
+            speed /= 2;
+        } while (mainCam.orthographicSize > 2);
     }
 }
