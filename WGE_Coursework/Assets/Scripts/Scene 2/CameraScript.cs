@@ -5,15 +5,15 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour {
 
     public GameObject player;
-    PlayerController2D playerController;
+    PlayerMovement2D playerMovement;
     public float xLerpTime;
     public float yLerpTime;
     public float xWiggle;
 
     // Use this for initialization
     void Start () {
-        playerController = player.GetComponent<PlayerController2D>();
-        playerController._jumpReleaseInput += CameraShake;
+        playerMovement = player.GetComponent<PlayerMovement2D>();
+        playerMovement._cameraWiggle += CameraShake;
 	}
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class CameraScript : MonoBehaviour {
         transform.position = new Vector3(xLerp, yLerp, -12);
     }
 
-    void CameraShake()
+    public void CameraShake()
     {
         StartCoroutine(Wiggle());
     }

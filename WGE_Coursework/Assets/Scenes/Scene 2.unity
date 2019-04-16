@@ -441,7 +441,7 @@ MonoBehaviour:
   player: {fileID: 355736388}
   xLerpTime: 0.1
   yLerpTime: 0.5
-  xWiggle: 0.1
+  xWiggle: 0.05
 --- !u!1 &732672746
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,6 +1300,11 @@ Prefab:
       propertyPath: _dashTime
       value: 0.15
       objectReference: {fileID: 0}
+    - target: {fileID: 114299321614154198, guid: af013052b86cd6d42a2ea33b8533664a,
+        type: 2}
+      propertyPath: cameraScript
+      value: 
+      objectReference: {fileID: 609484272}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af013052b86cd6d42a2ea33b8533664a, type: 2}
   m_IsPrefabAsset: 0

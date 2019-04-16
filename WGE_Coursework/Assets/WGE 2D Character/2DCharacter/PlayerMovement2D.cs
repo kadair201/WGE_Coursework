@@ -10,6 +10,8 @@ public class PlayerMovement2D : MonoBehaviour {
     PlayerController2D _pController;
     Rigidbody2D _rBody;
     public Transform _feet;
+    public delegate void CameraWiggle();
+    public event CameraWiggle _cameraWiggle;
 
     public MovementState _mState = MovementState.ON_GROUND;
 
@@ -60,6 +62,10 @@ public class PlayerMovement2D : MonoBehaviour {
         {
             if (Physics2D.OverlapBoxAll(new Vector2(_feet.position.x, _feet.position.y), new Vector2(0.25f, 0.25f), 0f).Length > 1 && _mState != MovementState.DASHING)
             {
+                if (_mState == MovementState.IN_AIR && _rBody.velocity.y < 0)
+                {
+                    _cameraWiggle();
+                }
                 SwitchState(MovementState.ON_GROUND);
             }
             else
@@ -143,6 +149,7 @@ public class PlayerMovement2D : MonoBehaviour {
     void JumpEnd()
     {
         if (_mState == MovementState.IN_AIR)_rBody.gravityScale = _jumpNegGravity;
+
     }
 
     void Dash(Vector2 direction)

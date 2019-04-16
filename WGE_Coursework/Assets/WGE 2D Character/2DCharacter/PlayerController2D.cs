@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController2D : MonoBehaviour {
-
+    
     public delegate void JumpInput();
     public delegate void JumpReleaseInput();
     public delegate void JumpPressedInput();
@@ -15,9 +15,6 @@ public class PlayerController2D : MonoBehaviour {
     public event HorizontalMoveInput _hMoveInput;
     public event JumpPressedInput _jumpPressedInput;
     public event DashPressedInput _dashPressedInput;
-
-    public event PlayerMoving playerMoveEvent;
-    public delegate void PlayerMoving(Vector2 movement);
 
     // Use this for initialization
     void Start () {
@@ -47,6 +44,6 @@ public class PlayerController2D : MonoBehaviour {
         }
 
         _hMoveInput(hMove);
-        //playerMoveEvent(new Vector2(hMove, vMove));
+
     }
 }
