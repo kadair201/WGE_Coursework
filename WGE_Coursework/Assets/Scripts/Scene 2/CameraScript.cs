@@ -9,6 +9,7 @@ public class CameraScript : MonoBehaviour {
     public float xLerpTime;
     public float yLerpTime;
     public float xWiggle;
+    public float yWiggle;
 
     // Use this for initialization
     void Start () {
@@ -31,9 +32,12 @@ public class CameraScript : MonoBehaviour {
     IEnumerator Wiggle()
     {
         transform.Translate(Vector3.left * xWiggle);
-        yield return new WaitForSeconds(0.05f);
+        transform.Translate(Vector3.up * yWiggle);
+        yield return new WaitForSeconds(0.01f);
         transform.Translate(Vector3.right * xWiggle * 2);
-        yield return new WaitForSeconds(0.05f);
+        transform.Translate(Vector3.down * yWiggle);
+        yield return new WaitForSeconds(0.01f);
         transform.Translate(Vector3.left * xWiggle);
+        transform.Translate(Vector3.up * yWiggle);
     }
 }
