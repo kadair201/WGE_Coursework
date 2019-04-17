@@ -444,7 +444,7 @@ MonoBehaviour:
   xWiggle: 0.05
   yWiggle: 0.1
   zoomSpeed: 0.005
-  camSize: 0.5
+  camSize: 0.05
   mainCam: {fileID: 609484270}
 --- !u!1 &732672746
 GameObject:

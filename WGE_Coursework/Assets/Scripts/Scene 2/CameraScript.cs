@@ -61,8 +61,9 @@ public class CameraScript : MonoBehaviour {
 
     public void FocusOnSubject(GameObject subject)
     {
-        StartCoroutine(Zoom());
         zooming = true;
+        player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        StartCoroutine(Zoom());
         lerpSubject = subject;
         
     }
