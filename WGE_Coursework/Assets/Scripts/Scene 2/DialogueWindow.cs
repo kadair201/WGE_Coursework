@@ -6,17 +6,28 @@ using UnityEngine.UI;
 public class DialogueWindow : EditorWindow {
 
     static DialogueWindow window;
+    static XMLWriter xmlWriter;
+    static ResponseScript responseScript;
+
     Color color;
     static string fileName;
     static string firstLine;
-    static List<string> responses;
+    static string firstLineID;
+    static List<ResponseScript> playerResponses;
+    static List<ResponseScript> npcResponses;
 
-	[MenuItem("Custom Windows/Dialogue Window")]
+    int numberOfPlayerResponses = -1;
+    int numberOfNPCResponses = -1;
+
+    [MenuItem("Custom Windows/Dialogue Window")]
     static void Initialise()
     {
         window = (DialogueWindow)EditorWindow.GetWindow(typeof(DialogueWindow));
         window.Show();
-        responses = new List<string>();
+        playerResponses = new List<ResponseScript>();
+        npcResponses = new List<ResponseScript>();
+        xmlWriter = GameObject.Find("XMLObject").GetComponent<XMLWriter>();
+        responseScript = GameObject.Find("XMLObject").GetComponent<ResponseScript>();
     }
 
     private void OnGUI()
@@ -29,24 +40,46 @@ public class DialogueWindow : EditorWindow {
 
         // The file naming header and text field
         EditorGUILayout.LabelField("File", TextStyle);
-        DialogueWindow.fileName = EditorGUILayout.TextField(label:"Name of XML file", text:DialogueWindow.fileName);
+        DialogueWindow.fileName = EditorGUILayout.TextField(label: "Name of XML file", text:DialogueWindow.fileName);
+        
 
         // The conversation editor header
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Conversation Editor", TextStyle);
 
-        DialogueWindow.firstLine = EditorGUILayout.TextField(label: "NPC opening line", text: DialogueWindow.firstLine);
-        for (int i = 0; i < responses.Count; i++)
+        numberOfNPCResponses++;
+        ResponseScript newNPCresponse;
+        npcResponses.Add(newNPCresponse);
+        newNPCresponse.line = EditorGUILayout.TextField(label: "NPC opening line", text: newNPCresponse.line);
+        newNPCresponse.ID = "NPC1";
+        //npcResponses[numberOfNPCResponses].connectedTo.Add(//ID of player response)
+        
+
+        for (int i = 0; i < playerResponses.Count; i++)
         {
-            DialogueWindow.responses[i] = EditorGUILayout.TextField(label: "Response " + (i+1), text: DialogueWindow.responses[i]);
+            //DialogueWindow.playerResponses[i] = EditorGUILayout.TextField(label: "Response " + (i+1), text: DialogueWindow.responses[i]);
             Repaint();
         }
 
         EditorGUILayout.Space();
 
-        if (GUILayout.Button(text: "Add Response"))
+
+
+        // Add a response
+        if (GUILayout.Button(text:"Add Player Response"))
         {
-            responses.Add("");
+            numberOfPlayerResponses++;
+            playerResponses[numberOfPlayerResponses].line = EditorGUILayout.TextField(label: "Response ", text: playerResponses[numberOfPlayerResponses].line);
+            playerResponses[numberOfPlayerResponses].ID = "P" + numberOfPlayerResponses.ToString();
+            Debug.Log("P" + numberOfPlayerResponses.ToString());
+        }
+        
+
+
+        // Save to the file
+        if(GUILayout.Button(text:"Save to file"))
+        {
+            //DialogueWindow.xmlWriter.SaveToXML(DialogueWindow.fileName, DialogueWindow.firstLine, DialogueWindow.firstLineID, DialogueWindow.responses);
         }
     }
 }

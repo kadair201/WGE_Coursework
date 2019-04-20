@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class InventoryScript : MonoBehaviour {
 
     int pos = 1;
-    bool canScrollUp = true;
-    bool canScrollDown = true;
     bool grassSelected = true;
     bool dirtSelected = false;
     bool sandSelected = false;

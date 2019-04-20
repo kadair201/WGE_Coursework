@@ -58,6 +58,7 @@ public class PlayerController2D : MonoBehaviour {
         if (collision.name == "NPC")
         {
             _cameraZoom(GameObject.Find("NPC"));
+            GameObject.Find("XMLObject").GetComponent<DialogueScript>().BeginDialogue();
         }
     }
 }
