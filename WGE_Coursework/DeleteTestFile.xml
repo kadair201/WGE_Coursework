@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dialogue>
+  <NPCFirstLine Line="Hello, this is the first line." />
+  <Response 0>Hello, this is player response 1.</Response 0>
+  <Response 1>This is response 2.</Response 1>
+</Dialogue>

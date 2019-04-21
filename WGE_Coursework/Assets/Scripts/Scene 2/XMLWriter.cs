@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class XMLWriter : MonoBehaviour {
 
-	public void SaveToXML(string fileName, string firstLine, string firstLineID, List<string> responses)
+	public void SaveToXML(string fileName, string firstLine, List<ResponseScript> responses)
     {
         XmlWriterSettings writerSettings = new XmlWriterSettings();
         writerSettings.Indent = true;
@@ -18,14 +18,19 @@ public class XMLWriter : MonoBehaviour {
 
 
         xmlWriter.WriteStartElement("NPCFirstLine");
-        xmlWriter.WriteAttributeString("Line", firstLine);
-        xmlWriter.WriteAttributeString("ID", firstLineID);
+        xmlWriter.WriteString(firstLine);
         xmlWriter.WriteEndElement();
 
         for (int i=0; i < responses.Count; i++)
         {
             xmlWriter.WriteStartElement("Response " + i);
-            xmlWriter.WriteString(responses[i]);
+            xmlWriter.WriteAttributeString("ID", responses[i].ID);
+            xmlWriter.WriteAttributeString("Line", responses[i].line);
+            //for (int j = 0; j < responses[i].connectedTo.Count; j++)
+            //{
+                //xmlWriter.WriteAttributeString("Connected to", responses[i].connectedTo[j]);
+            //}
+            
             xmlWriter.WriteEndElement();
         }
 

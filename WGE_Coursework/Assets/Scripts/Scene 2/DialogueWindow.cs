@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class DialogueWindow : EditorWindow
 {
-
     static DialogueWindow window;
     static XMLWriter xmlWriter;
     static ResponseScript responseScript;
@@ -16,6 +15,8 @@ public class DialogueWindow : EditorWindow
     static string firstLineID;
     static List<ResponseScript> playerResponses;
     static List<ResponseScript> npcResponses;
+    float currentY = 0;
+    static int indentAmount = 0;
     
     
     bool newResponse = false;
@@ -28,10 +29,13 @@ public class DialogueWindow : EditorWindow
         playerResponses = new List<ResponseScript>();
         npcResponses = new List<ResponseScript>();
         xmlWriter = GameObject.Find("XMLObject").GetComponent<XMLWriter>();
+        window.AddNewNPCResponse();
     }
 
     private void OnGUI()
     {
+        indentAmount = 0;
+        currentY = 30;
         // Set up text style to use for headers
         GUIStyle HeaderTextStyle = new GUIStyle();
         HeaderTextStyle.fontSize = 15;
@@ -40,89 +44,67 @@ public class DialogueWindow : EditorWindow
 
         // The file naming header and text field
         EditorGUILayout.LabelField("File", HeaderTextStyle);
-        DialogueWindow.fileName = EditorGUILayout.TextField(label: "Name of XML file", text: DialogueWindow.fileName);
-
+        DialogueWindow.fileName = EditorGUI.TextField(new Rect(0, currentY, position.width, 15), label: "Name of XML file", text: DialogueWindow.fileName);
+        currentY += 30;
 
         // The conversation editor header
-        EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Conversation Start", HeaderTextStyle);
+        EditorGUI.LabelField(new Rect(0, currentY, position.width, 30), "Conversation Start", HeaderTextStyle);
+        currentY += 30;
 
-        firstLine = EditorGUILayout.TextField(label: "NPC opening line", text: firstLine);
-        EditorGUILayout.Space();
+        PrintNPCLine(npcResponses[0]);
 
-        for (int i = 0; i < playerResponses.Count; i++)
-        {
-            playerResponses[i].line = EditorGUILayout.TextField(label: "Player response " + (i + 1), text: playerResponses[i].line);
-            string npcAnswer = "";
-            EditorGUILayout.BeginHorizontal();
-            EditorGUI.indentLevel++;
-            npcAnswer = EditorGUI.TextField(new Rect(100, 110, position.width, 15), label: "NPC ", text: npcAnswer);
-            EditorGUI.indentLevel--;
-            EditorGUILayout.EndHorizontal();
-            if (GUI.Button(new Rect(10, 110, 50, 15), "Add"))
-            {
-                Debug.Log("Pressed");
-                EditorGUILayout.Space();
-                string newPlayerField = "";
-                newPlayerField = EditorGUILayout.TextField(label: "Player ", text: newPlayerField);
-            }
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-        }
-        EditorGUILayout.Space();
-
+        currentY += 20;
         
-        // Add a response
-        if (GUILayout.Button(text: "Add Player Response"))
-        {
-            AddNewPlayerResponse();
-        }
-
-        /*
-        EditorGUILayout.LabelField("NPC Responses", HeaderTextStyle);
-        int index = 0;
-
-        for (int j = 0; j < playerResponses.Count; j++)
-        {
-            EditorGUILayout.Space();
-            GUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Choose a player response");
-            string[] popupOptions = new string[playerResponses.Count];
-            for (int i = 0; i < playerResponses.Count; i++)
-            {
-                popupOptions[i] = playerResponses[i].line;
-            }
-            index = EditorGUILayout.Popup(index, popupOptions);
-            GUILayout.EndHorizontal();
-
-            AddNewNPCResponse();
-
-            npcResponses[j].line = EditorGUILayout.TextField(label: "NPC response", text: npcResponses[j].line);
-        }*/
-
-
-
-
         // Save to the file
-        if (GUILayout.Button(text: "Save to file"))
+        if (GUI.Button(new Rect(10, currentY, position.width, 15), text: "Save to file"))
         {
-            //DialogueWindow.xmlWriter.SaveToXML(DialogueWindow.fileName, DialogueWindow.firstLine, DialogueWindow.firstLineID, DialogueWindow.responses);
+            DialogueWindow.xmlWriter.SaveToXML(DialogueWindow.fileName, DialogueWindow.firstLine, DialogueWindow.playerResponses);
         }
     }
 
-    private void AddNewPlayerResponse()
+    private void AddNewPlayerResponse(ResponseScript npcResponse)
     {
-        ResponseScript responseScript = new ResponseScript();
-        playerResponses.Add(responseScript);
-        responseScript.ID = GUID.Generate().ToString();
+        ResponseScript playerResponse = new ResponseScript();
+        playerResponses.Add(playerResponse);
+        playerResponse.ID = GUID.Generate().ToString();
+        npcResponse.connectedTo.Add(playerResponse); // add this Player Response to the NPC Response
+
+        // make a new NPC response to go with this and add it to the new player response
+        playerResponse.connectedTo.Add(AddNewNPCResponse()); // make a new NPCresponse for this playerresponse and add to it
     }
 
-    private void AddNewNPCResponse()
+    private ResponseScript AddNewNPCResponse()
     {
-        ResponseScript responseScript = new ResponseScript();
-        npcResponses.Add(responseScript);
-        responseScript.ID = GUID.Generate().ToString();
-        
+        ResponseScript npcResponse = new ResponseScript();
+        npcResponses.Add(npcResponse);
+        npcResponse.ID = GUID.Generate().ToString();
+
+        return npcResponse;
+    }
+    
+    void PrintNPCLine(ResponseScript npcResponse)
+    {
+        // keep indentAmount so we can go back to that value later
+        indentAmount++;
+        int currentIndentAmount = indentAmount;
+
+        if (GUI.Button(new Rect(position.width - 50, currentY, 50, 15), "Add"))
+        {
+            AddNewPlayerResponse(npcResponse);
+        }
+
+        Debug.Log(indentAmount);
+        npcResponse.line = EditorGUI.TextField(new Rect(indentAmount * 40, currentY, position.width - (indentAmount * 40) - 50, 15), label: "NPC " + npcResponse.ID.Substring(npcResponse.ID.Length - 3) + "Ind. " + indentAmount, text: npcResponse.line);
+        currentY += 60;
+
+        for (int i = 0; i < npcResponse.connectedTo.Count; i++)
+        {
+            npcResponse.connectedTo[i].line = EditorGUI.TextField(new Rect(10 + (indentAmount * 40), currentY, position.width - (indentAmount * 40) - 50, 15), label: "PLAYER " + npcResponse.ID.Substring(npcResponse.ID.Length - 3) + "Ind. " + indentAmount, text: npcResponse.connectedTo[i].line);
+            currentY += 30;
+            //Debug.Log("Player response connected to: " + npcResponse.connectedTo[i].connectedTo.Count);
+            //indentAmount++;
+            PrintNPCLine(npcResponse.connectedTo[i].connectedTo[0]);
+            indentAmount = currentIndentAmount;
+        }
     }
 }

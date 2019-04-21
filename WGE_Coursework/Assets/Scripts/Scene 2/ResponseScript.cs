@@ -6,5 +6,10 @@ public class ResponseScript {
 
     public string line;
     public string ID;
-    public List<string> connectedTo;
+    public List<ResponseScript> connectedTo;
+
+    public ResponseScript()
+    {
+        connectedTo = new List<ResponseScript>();
+    }
 }
