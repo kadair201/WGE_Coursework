@@ -17,6 +17,7 @@ public class DialogueWindow : EditorWindow
     static List<ResponseScript> npcResponses;
     float currentY = 0;
     static int indentAmount = 0;
+    int indentValue = 60;
     
     
     bool newResponse = false;
@@ -94,12 +95,14 @@ public class DialogueWindow : EditorWindow
         }
 
         Debug.Log(indentAmount);
-        npcResponse.line = EditorGUI.TextField(new Rect(indentAmount * 40, currentY, position.width - (indentAmount * 40) - 50, 15), label: "NPC " + npcResponse.ID.Substring(npcResponse.ID.Length - 3) + "Ind. " + indentAmount, text: npcResponse.line);
-        currentY += 60;
+        EditorGUI.LabelField(new Rect((indentAmount - 1) * indentValue, currentY, 50, 15), "NPC ");
+        npcResponse.line = EditorGUI.TextField(new Rect(50 + (indentAmount-1) * indentValue, currentY, position.width - (indentAmount * indentValue) - 50, 15), text: npcResponse.line);
+        currentY += 30;
 
         for (int i = 0; i < npcResponse.connectedTo.Count; i++)
         {
-            npcResponse.connectedTo[i].line = EditorGUI.TextField(new Rect(10 + (indentAmount * 40), currentY, position.width - (indentAmount * 40) - 50, 15), label: "PLAYER " + npcResponse.ID.Substring(npcResponse.ID.Length - 3) + "Ind. " + indentAmount, text: npcResponse.connectedTo[i].line);
+            EditorGUI.LabelField(new Rect((indentAmount - 1) * indentValue, currentY, 50, 15), "Player ");
+            npcResponse.connectedTo[i].line = EditorGUI.TextField(new Rect(50 + (indentAmount - 1) * indentValue, currentY, position.width - (indentAmount * indentValue) - 50, 15), text: npcResponse.connectedTo[i].line);
             currentY += 30;
             //Debug.Log("Player response connected to: " + npcResponse.connectedTo[i].connectedTo.Count);
             //indentAmount++;
