@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dialogue>
+  <NPCDialogue>
+    <Response ID="27a2cfc3f3cb51b45a7d0a8987f52b19" Line="a">
+      <Connections>8d56a1832b6efb340834df0d271f4471</Connections>
+    </Response>
+    <Response ID="1e8a49a4d47eaa34db8265f2bd9adf1e" Line="a" />
+  </NPCDialogue>
+  <PlayerDialogue>
+    <Response ID="8d56a1832b6efb340834df0d271f4471" Line="a" ConnectedTo="1e8a49a4d47eaa34db8265f2bd9adf1e" />
+  </PlayerDialogue>
+</Dialogue>

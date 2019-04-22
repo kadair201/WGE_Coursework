@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dialogue>
+  <NPCDialogue>
+    <Response ID="62cee4e4f99bfbb408b48c8ba421efdc" Line="1">
+      <Connections>39a1f6c00d3e3cc4a82c38f709003b9d</Connections>
+      <Connections>2989b1dedc3f026438552fffa30bc5c9</Connections>
+    </Response>
+    <Response ID="53c57a5ce14413c41a14243cdf253019" Line="1">
+      <Connections>0a55035ca13c62244b0dbe33136550f5</Connections>
+    </Response>
+    <Response ID="4e90020abc2dc174fbbeb1b5939ed7ca" Line="1" />
+    <Response ID="e87a5ea0a51dfdb4ea473086b26656c7" Line="1" />
+  </NPCDialogue>
+  <PlayerDialogue>
+    <Response ID="39a1f6c00d3e3cc4a82c38f709003b9d" Line="1" ConnectedTo="53c57a5ce14413c41a14243cdf253019" />
+    <Response ID="0a55035ca13c62244b0dbe33136550f5" Line="1" ConnectedTo="4e90020abc2dc174fbbeb1b5939ed7ca" />
+    <Response ID="2989b1dedc3f026438552fffa30bc5c9" Line="1" ConnectedTo="e87a5ea0a51dfdb4ea473086b26656c7" />
+  </PlayerDialogue>
+</Dialogue>

@@ -11,6 +11,7 @@ public class DialogueWindow : EditorWindow
 
     Color color;
     static string fileName;
+    static List<ResponseScript> allResponses;
     static List<ResponseScript> playerResponses;
     static List<ResponseScript> npcResponses;
     float currentY = 0;
@@ -25,6 +26,7 @@ public class DialogueWindow : EditorWindow
     {
         window = (DialogueWindow)EditorWindow.GetWindow(typeof(DialogueWindow));
         window.Show();
+        allResponses = new List<ResponseScript>();
         playerResponses = new List<ResponseScript>();
         npcResponses = new List<ResponseScript>();
         xmlWriter = GameObject.Find("XMLObject").GetComponent<XMLWriter>();
@@ -61,6 +63,15 @@ public class DialogueWindow : EditorWindow
         {
             DialogueWindow.xmlWriter.SaveToXML(DialogueWindow.fileName, npcResponses, playerResponses);
         }
+        currentY += 30;
+        if (GUI.Button(new Rect(10, currentY, position.width, 15), text: "Load from file"))
+        {
+            Responses loadedResponses = DialogueWindow.xmlWriter.LoadFromXML(DialogueWindow.fileName);
+            playerResponses = loadedResponses.playerResponses;
+            npcResponses = loadedResponses.NPCresponses;
+            Debug.Log("Player responses: " + playerResponses.Count);
+            Debug.Log("NPC responses: " + npcResponses.Count);
+        }
     }
 
     private void AddNewPlayerResponse(ResponseScript npcResponse)
@@ -93,8 +104,6 @@ public class DialogueWindow : EditorWindow
         {
             AddNewPlayerResponse(npcResponse);
         }
-
-        Debug.Log(indentAmount);
         EditorGUI.LabelField(new Rect((indentAmount - 1) * indentValue, currentY, 50, 15), "NPC ");
         npcResponse.line = EditorGUI.TextField(new Rect(50 + (indentAmount-1) * indentValue, currentY, position.width - (indentAmount * indentValue) - 50, 15), text: npcResponse.line);
         currentY += 30;
@@ -104,8 +113,6 @@ public class DialogueWindow : EditorWindow
             EditorGUI.LabelField(new Rect((indentAmount - 1) * indentValue, currentY, 50, 15), "Player ");
             npcResponse.connectedTo[i].line = EditorGUI.TextField(new Rect(50 + (indentAmount - 1) * indentValue, currentY, position.width - (indentAmount * indentValue) - 50, 15), text: npcResponse.connectedTo[i].line);
             currentY += 30;
-            //Debug.Log("Player response connected to: " + npcResponse.connectedTo[i].connectedTo.Count);
-            //indentAmount++;
             PrintNPCLine(npcResponse.connectedTo[i].connectedTo[0]);
             indentAmount = currentIndentAmount;
         }
