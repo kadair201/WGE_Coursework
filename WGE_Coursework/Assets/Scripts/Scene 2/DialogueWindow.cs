@@ -11,8 +11,6 @@ public class DialogueWindow : EditorWindow
 
     Color color;
     static string fileName;
-    static string firstLine;
-    static string firstLineID;
     static List<ResponseScript> playerResponses;
     static List<ResponseScript> npcResponses;
     float currentY = 0;
@@ -49,17 +47,19 @@ public class DialogueWindow : EditorWindow
         currentY += 30;
 
         // The conversation editor header
-        EditorGUI.LabelField(new Rect(0, currentY, position.width, 30), "Conversation Start", HeaderTextStyle);
+        EditorGUI.LabelField(new Rect(0, currentY, position.width, 30), "Conversation Editor", HeaderTextStyle);
         currentY += 30;
 
         PrintNPCLine(npcResponses[0]);
 
         currentY += 20;
-        
+
+        EditorGUI.LabelField(new Rect(0, currentY, position.width, 30), "Save", HeaderTextStyle);
+        currentY += 30;
         // Save to the file
         if (GUI.Button(new Rect(10, currentY, position.width, 15), text: "Save to file"))
         {
-            DialogueWindow.xmlWriter.SaveToXML(DialogueWindow.fileName, DialogueWindow.firstLine, DialogueWindow.playerResponses);
+            DialogueWindow.xmlWriter.SaveToXML(DialogueWindow.fileName, npcResponses, playerResponses);
         }
     }
 
@@ -89,7 +89,7 @@ public class DialogueWindow : EditorWindow
         indentAmount++;
         int currentIndentAmount = indentAmount;
 
-        if (GUI.Button(new Rect(position.width - 50, currentY, 50, 15), "Add"))
+        if (GUI.Button(new Rect(position.width - 50, currentY, 20, 15), "+"))
         {
             AddNewPlayerResponse(npcResponse);
         }

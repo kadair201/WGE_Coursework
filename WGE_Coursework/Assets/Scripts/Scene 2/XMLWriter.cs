@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class XMLWriter : MonoBehaviour {
 
-	public void SaveToXML(string fileName, string firstLine, List<ResponseScript> responses)
+	public void SaveToXML(string fileName, List<ResponseScript> npcResponses, List<ResponseScript> playerResponses)
     {
         XmlWriterSettings writerSettings = new XmlWriterSettings();
         writerSettings.Indent = true;
@@ -16,23 +16,33 @@ public class XMLWriter : MonoBehaviour {
         // Create the root element
         xmlWriter.WriteStartElement("Dialogue");
 
+        xmlWriter.WriteStartElement("NPC Dialogue");
 
-        xmlWriter.WriteStartElement("NPCFirstLine");
-        xmlWriter.WriteString(firstLine);
-        xmlWriter.WriteEndElement();
-
-        for (int i=0; i < responses.Count; i++)
+        for (int i = 0; i < npcResponses.Count; i++)
         {
             xmlWriter.WriteStartElement("Response " + i);
-            xmlWriter.WriteAttributeString("ID", responses[i].ID);
-            xmlWriter.WriteAttributeString("Line", responses[i].line);
-            //for (int j = 0; j < responses[i].connectedTo.Count; j++)
-            //{
-                //xmlWriter.WriteAttributeString("Connected to", responses[i].connectedTo[j]);
-            //}
+            xmlWriter.WriteAttributeString("ID", npcResponses[i].ID);
+            xmlWriter.WriteAttributeString("Line", npcResponses[i].line);
+
+            for (int j = 0; j < npcResponses[i].connectedTo.Count; j++)
+            {
+                xmlWriter.WriteAttributeString("Connected to", npcResponses[i].connectedTo[j].ID);
+            }
             
             xmlWriter.WriteEndElement();
         }
+        xmlWriter.WriteEndElement();
+
+        xmlWriter.WriteStartElement("Player Dialogue");
+        for (int i = 0; i < playerResponses.Count; i++)
+        {
+            xmlWriter.WriteStartElement("Response " + i);
+            xmlWriter.WriteAttributeString("ID", playerResponses[i].ID);
+            xmlWriter.WriteAttributeString("Line", playerResponses[i].line);
+            xmlWriter.WriteAttributeString("Connected to", playerResponses[i].connectedTo[0].ID);
+            xmlWriter.WriteEndElement();
+        }
+        xmlWriter.WriteEndElement();
 
         // End the root element
         xmlWriter.WriteEndElement();
