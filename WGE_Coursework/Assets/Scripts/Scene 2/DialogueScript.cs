@@ -32,6 +32,7 @@ public class DialogueScript : MonoBehaviour {
         playerResponses = loadedResponses.playerResponses;
         npcResponses = loadedResponses.NPCresponses;
 
+        npcLineNumber = 0;
         npcText.text = npcResponses[npcLineNumber].line;
         
     }
@@ -62,29 +63,53 @@ public class DialogueScript : MonoBehaviour {
         // find all connected responses
         foreach (ResponseScript connectedResponses in npcResponses[npcLineNumber].connectedTo)
         {
-            Debug.Log(connectedResponses.line);
+            //Debug.Log(connectedResponses.line);
             responseCount++;
         }
         // display them as buttons
 
-
         for (int i = 0; i < npcResponses[npcLineNumber].connectedTo.Count; i++)
         {
-            Button spawnedButton = Instantiate(buttonPrefab);
-            spawnedButton.transform.SetParent(GameObject.Find("PlayerTextBox").transform);
-            spawnedButton.transform.localPosition = new Vector3(0, currentY, 0);
-            currentY -= 30;
-            spawnedButton.GetComponentInChildren<Text>().text = npcResponses[npcLineNumber].connectedTo[i].line;
-            ResponseScript currentResponse = new ResponseScript();
-            currentResponse = npcResponses[npcLineNumber].connectedTo[i];
-            spawnedButton.onClick.AddListener(() => NextNPCLine(currentResponse));
+            if (npcResponses[npcLineNumber].connectedTo[i].line != "")
+            {
+                Button spawnedButton = Instantiate(buttonPrefab);
+                spawnedButton.name = "ResponseButton" + i;
+                spawnedButton.transform.SetParent(GameObject.Find("PlayerTextBox").transform);
+                spawnedButton.transform.localPosition = new Vector3(0, currentY, 0);
+                currentY -= 30;
+                spawnedButton.GetComponentInChildren<Text>().text = npcResponses[npcLineNumber].connectedTo[i].line;
+                ResponseScript currentResponse = new ResponseScript();
+                currentResponse = npcResponses[npcLineNumber].connectedTo[i];
+                spawnedButton.onClick.AddListener(() => NextNPCLine(currentResponse, npcResponses[npcLineNumber].connectedTo.Count));
+            }
+            else
+            {
+                camScript.ZoomOut();
+                npcBox.SetActive(false);
+                playerBox.SetActive(false);
+                break;
+            }
         }
     }
 
-    void NextNPCLine(ResponseScript playerLine)
+    void NextNPCLine(ResponseScript playerLine, int numberOfButtons)
     {
+        if (playerLine.connectedTo[0].line == "" || playerLine.line == "")
+        {
+            camScript.ZoomOut();
+            npcBox.SetActive(false);
+            playerBox.SetActive(false);
+            return;
+        }
+
+        // Destroy the buttons from the last response
+        for (int i = 0; i < numberOfButtons; i++)
+        {
+            Destroy(GameObject.Find("ResponseButton" + i));
+        }
+
         // find current player line 
-        Debug.Log(playerLine.connectedTo[0].line);
+        //Debug.Log(playerLine.connectedTo[0].line);
         // find current player line connection 
         camScript.lerpSubject = GameObject.Find("NPC");
         npcText.text = playerLine.connectedTo[0].line;

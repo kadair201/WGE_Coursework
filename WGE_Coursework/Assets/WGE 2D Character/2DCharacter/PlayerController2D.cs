@@ -29,6 +29,7 @@ public class PlayerController2D : MonoBehaviour {
 	void Update () {
         if (canMove)
         {
+            
             float hMove = Input.GetAxis("Horizontal");
             float vMove = Input.GetAxis("Vertical");
 
@@ -51,6 +52,7 @@ public class PlayerController2D : MonoBehaviour {
 
             _hMoveInput(hMove);
         }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

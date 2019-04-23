@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dialogue>
+  <NPCDialogue>
+    <Response ID="ed0a98c3e4d808847880dba30b57f8cb" Line="Hey, how's it going?">
+      <Connections>0dffa59f691915141aedc8e6c1dad61e</Connections>
+      <Connections>89b56098fe27dd3459dcaa2ad8b75444</Connections>
+      <Connections>81a23e16c7c75794e812f896e8ab8005</Connections>
+    </Response>
+    <Response ID="3bf16d4718071bf4a93a6a49d0424f6c" Line="That's good to hear.">
+      <Connections>211eaf15175bd114c870528557153e64</Connections>
+    </Response>
+    <Response ID="c7c570c11e0cb4b4dbfb2c2a421e977f" Line="Aww, that's a shame.">
+      <Connections>a24fb0a3b85f509458022d6f25752680</Connections>
+    </Response>
+    <Response ID="fd3a0c0c0504e8e4787cd253b83c1b96" Line="No need to brag about it.">
+      <Connections>e3b4d5ed235c705458c00803664caab2</Connections>
+      <Connections>2e12ff4e3a5eaaf4287221f72ce54461</Connections>
+    </Response>
+    <Response ID="95a85353f11ae8348a4f283f15c15d76" Line="" />
+    <Response ID="0f3f992c728cd7d40b66cf76b12be590" Line="Sorry, I'm not in a great mood today.">
+      <Connections>83a2e2d9dcfae824baec8487e047fbba</Connections>
+    </Response>
+    <Response ID="13a076ef619fa9a4291b3a3d65f9472e" Line="" />
+    <Response ID="f985a99a96368ca468749ff613871b8a" Line="" />
+    <Response ID="e12858a059a1a494e8faa6602f348a48" Line="" />
+  </NPCDialogue>
+  <PlayerDialogue>
+    <Response ID="0dffa59f691915141aedc8e6c1dad61e" Line="I'm doing okay.">
+      <Connections>3bf16d4718071bf4a93a6a49d0424f6c</Connections>
+    </Response>
+    <Response ID="89b56098fe27dd3459dcaa2ad8b75444" Line="I'm doing terribly.">
+      <Connections>c7c570c11e0cb4b4dbfb2c2a421e977f</Connections>
+    </Response>
+    <Response ID="81a23e16c7c75794e812f896e8ab8005" Line="I'm doing great!">
+      <Connections>fd3a0c0c0504e8e4787cd253b83c1b96</Connections>
+    </Response>
+    <Response ID="211eaf15175bd114c870528557153e64" Line="Bye.">
+      <Connections>95a85353f11ae8348a4f283f15c15d76</Connections>
+    </Response>
+    <Response ID="e3b4d5ed235c705458c00803664caab2" Line="Then why did you ask?">
+      <Connections>0f3f992c728cd7d40b66cf76b12be590</Connections>
+    </Response>
+    <Response ID="2e12ff4e3a5eaaf4287221f72ce54461" Line="Bye.">
+      <Connections>13a076ef619fa9a4291b3a3d65f9472e</Connections>
+    </Response>
+    <Response ID="83a2e2d9dcfae824baec8487e047fbba" Line="Bye.">
+      <Connections>f985a99a96368ca468749ff613871b8a</Connections>
+    </Response>
+    <Response ID="a24fb0a3b85f509458022d6f25752680" Line="Bye.">
+      <Connections>e12858a059a1a494e8faa6602f348a48</Connections>
+    </Response>
+  </PlayerDialogue>
+</Dialogue>

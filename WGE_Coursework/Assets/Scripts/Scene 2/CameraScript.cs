@@ -75,6 +75,14 @@ public class CameraScript : MonoBehaviour {
         
     }
 
+    public void ZoomOut()
+    {
+        zooming = false;
+        lerpSubject = player;
+        player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+        StartCoroutine(StartZoomOut());
+    }
+
     IEnumerator Wiggle()
     {
         transform.Translate(Vector3.left * xWiggle);
@@ -95,5 +103,15 @@ public class CameraScript : MonoBehaviour {
             yield return new WaitForSeconds(zoomSpeed);
             //speed /= 2;
         } while (mainCam.orthographicSize > 2);
+    }
+
+    IEnumerator StartZoomOut()
+    {
+        do
+        {
+            mainCam.orthographicSize += camSize;
+            yield return new WaitForSeconds(zoomSpeed);
+            //speed /= 2;
+        } while (mainCam.orthographicSize < 4);
     }
 }
