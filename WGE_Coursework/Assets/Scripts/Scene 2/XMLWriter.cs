@@ -50,7 +50,12 @@ public class XMLWriter : MonoBehaviour {
             xmlWriter.WriteStartElement("Response");
             xmlWriter.WriteAttributeString("ID", playerResponses[i].ID);
             xmlWriter.WriteAttributeString("Line", playerResponses[i].line);
-            xmlWriter.WriteAttributeString("ConnectedTo", playerResponses[i].connectedTo[0].ID);
+            for (int j = 0; j < playerResponses[i].connectedTo.Count; j++)
+            {
+                xmlWriter.WriteStartElement("Connections");
+                xmlWriter.WriteString(playerResponses[i].connectedTo[j].ID);
+                xmlWriter.WriteEndElement();
+            }
             xmlWriter.WriteEndElement();
         }
         xmlWriter.WriteEndElement();
@@ -69,7 +74,6 @@ public class XMLWriter : MonoBehaviour {
         Responses responses = new Responses();
 
         XmlReader xmlReader = XmlReader.Create(fileName + ".xml");
-        Debug.Log(fileName);
         List<ResponseScript> readResponses = new List<ResponseScript>();
 
         // Iterate through and read every line in the XML file
@@ -87,18 +91,18 @@ public class XMLWriter : MonoBehaviour {
                         response.ID = responseReader["ID"];
                         response.line = responseReader["Line"];
 
-                        if (responseReader.IsStartElement("Connections"))
+                        XmlReader innerReader = responseReader.ReadSubtree();
+
+                        while (innerReader.Read())
                         {
-                            XmlReader innerReader = responseReader.ReadSubtree();
-                            while (innerReader.Read())
+                            if (innerReader.IsStartElement("Connections"))
                             {
-                                if (innerReader.IsStartElement("Connections"))
-                                {
-                                    response.connectionIDs.Add(innerReader.Value);
-                                }
+                                string ID = innerReader.ReadString();
+                                response.connectionIDs.Add(ID);
                             }
-                            innerReader.Close();
                         }
+                        innerReader.Close();
+
                         readResponses.Add(response);
                         responses.NPCresponses.Add(response);
                     }
@@ -115,23 +119,22 @@ public class XMLWriter : MonoBehaviour {
                 {
                     if (xmlReader.IsStartElement("Response"))
                     {
-                        Debug.Log("Response");
                         ResponseScript response = new ResponseScript();
                         response.ID = responseReader["ID"];
                         response.line = responseReader["Line"];
 
-                        if (responseReader.IsStartElement("Connections"))
+                        XmlReader innerReader = responseReader.ReadSubtree();
+
+                        while (innerReader.Read())
                         {
-                            XmlReader innerReader = responseReader.ReadSubtree();
-                            while (innerReader.Read())
+                            if (innerReader.IsStartElement("Connections"))
                             {
-                                if (innerReader.IsStartElement("Connections"))
-                                {
-                                    response.connectionIDs.Add(innerReader.Value);
-                                }
+                                string ID = innerReader.ReadString();
+                                response.connectionIDs.Add(ID);
                             }
-                            innerReader.Close();
                         }
+                        innerReader.Close();
+
                         readResponses.Add(response);
                         responses.playerResponses.Add(response);
                     }
@@ -150,8 +153,7 @@ public class XMLWriter : MonoBehaviour {
                 response.connectedTo.Add(newResponse);
             }
         }
-
-        Debug.Log(readResponses.Count);
+        
 
         return responses;
     }

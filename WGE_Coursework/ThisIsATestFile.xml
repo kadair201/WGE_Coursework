@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Dialogue>
   <NPCDialogue>
-    <Response ID="33298009c258af049ac6a029660a419b" Line="aa" />
+    <Response ID="172faf7a89813ff439c6c8dbdb7dedcc" Line="Hello there." />
   </NPCDialogue>
   <PlayerDialogue />
 </Dialogue>

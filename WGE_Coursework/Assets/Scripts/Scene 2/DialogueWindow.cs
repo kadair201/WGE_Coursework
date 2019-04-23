@@ -8,9 +8,10 @@ public class DialogueWindow : EditorWindow
     static DialogueWindow window;
     static XMLWriter xmlWriter;
     static ResponseScript responseScript;
+    static DialogueScript dialogueScript;
 
     Color color;
-    static string fileName;
+    public static string fileName;
     static List<ResponseScript> allResponses;
     static List<ResponseScript> playerResponses;
     static List<ResponseScript> npcResponses;
@@ -30,6 +31,7 @@ public class DialogueWindow : EditorWindow
         playerResponses = new List<ResponseScript>();
         npcResponses = new List<ResponseScript>();
         xmlWriter = GameObject.Find("XMLObject").GetComponent<XMLWriter>();
+        dialogueScript = GameObject.Find("XMLObject").GetComponent<DialogueScript>();
         window.AddNewNPCResponse();
     }
 
@@ -46,6 +48,10 @@ public class DialogueWindow : EditorWindow
         // The file naming header and text field
         EditorGUILayout.LabelField("File", HeaderTextStyle);
         DialogueWindow.fileName = EditorGUI.TextField(new Rect(0, currentY, position.width, 15), label: "Name of XML file", text: DialogueWindow.fileName);
+        if (fileName != "")
+        {
+            dialogueScript.filename = fileName;
+        }
         currentY += 30;
 
         // The conversation editor header
@@ -58,6 +64,7 @@ public class DialogueWindow : EditorWindow
 
         EditorGUI.LabelField(new Rect(0, currentY, position.width, 30), "Save", HeaderTextStyle);
         currentY += 30;
+
         // Save to the file
         if (GUI.Button(new Rect(10, currentY, position.width, 15), text: "Save to file"))
         {
@@ -69,8 +76,14 @@ public class DialogueWindow : EditorWindow
             Responses loadedResponses = DialogueWindow.xmlWriter.LoadFromXML(DialogueWindow.fileName);
             playerResponses = loadedResponses.playerResponses;
             npcResponses = loadedResponses.NPCresponses;
-            Debug.Log("Player responses: " + playerResponses.Count);
-            Debug.Log("NPC responses: " + npcResponses.Count);
+            foreach (ResponseScript npcLine in npcResponses)
+            {
+                //Debug.Log("NPCLine");
+            }
+            foreach (ResponseScript playerLine in playerResponses)
+            {
+                //Debug.Log("playerLine");
+            }
         }
     }
 
@@ -108,6 +121,7 @@ public class DialogueWindow : EditorWindow
         npcResponse.line = EditorGUI.TextField(new Rect(50 + (indentAmount-1) * indentValue, currentY, position.width - (indentAmount * indentValue) - 50, 15), text: npcResponse.line);
         currentY += 30;
 
+        //Debug.Log(npcResponse.connectedTo.Count);
         for (int i = 0; i < npcResponse.connectedTo.Count; i++)
         {
             EditorGUI.LabelField(new Rect((indentAmount - 1) * indentValue, currentY, 50, 15), "Player ");

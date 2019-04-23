@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour {
 
     public GameObject player;
+    public GameObject npc;
     PlayerMovement2D playerMovement;
     PlayerController2D playerController;
     public float xLerpTime;
@@ -14,9 +15,10 @@ public class CameraScript : MonoBehaviour {
     public float zoomSpeed;
     public float camSize;
     //public float speed;
-    bool zooming = false;
+    public bool zooming = false;
     public Camera mainCam;
-    GameObject lerpSubject;
+    public GameObject lerpSubject;
+    public DialogueScript dialogueScript;
 
     // Use this for initialization
     void Start () {
@@ -25,6 +27,7 @@ public class CameraScript : MonoBehaviour {
         playerMovement._cameraWiggle += CameraShake;
         playerController._cameraZoom += FocusOnSubject;
         lerpSubject = player;
+        npc = GameObject.Find("NPC");
 	}
 
     // Update is called once per frame
@@ -34,6 +37,11 @@ public class CameraScript : MonoBehaviour {
         float yLerp = Mathf.Lerp(transform.position.y, lerpSubject.transform.position.y, yLerpTime);
         transform.position = new Vector3(xLerp, yLerp, -12);
 
+        
+    }
+
+    private void Update()
+    {
         if (!zooming)
         {
             playerController.canMove = true;
@@ -42,14 +50,19 @@ public class CameraScript : MonoBehaviour {
         {
             playerController.canMove = false;
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                lerpSubject = player;
-            }
+                if (lerpSubject == player)
+                {
+                    lerpSubject = npc;
+                }
+                else
+                {
+                    lerpSubject = player;
+                    dialogueScript.ShowPlayerOptions();
+                }
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                lerpSubject = GameObject.Find("NPC");
+                Debug.Log(lerpSubject);
             }
         }
     }
