@@ -44,13 +44,10 @@ public class DialogueScript : MonoBehaviour {
             {
                 npcBox.SetActive(true);
                 playerBox.SetActive(false);
-                NextNPCLine();
             }
             else
             {
                 npcBox.SetActive(false);
-                
-                
             }
         }
         
@@ -70,7 +67,7 @@ public class DialogueScript : MonoBehaviour {
         }
         // display them as buttons
 
-        
+
         for (int i = 0; i < npcResponses[npcLineNumber].connectedTo.Count; i++)
         {
             Button spawnedButton = Instantiate(buttonPrefab);
@@ -78,15 +75,27 @@ public class DialogueScript : MonoBehaviour {
             spawnedButton.transform.localPosition = new Vector3(0, currentY, 0);
             currentY -= 30;
             spawnedButton.GetComponentInChildren<Text>().text = npcResponses[npcLineNumber].connectedTo[i].line;
-            Debug.Log(i);
+            ResponseScript currentResponse = new ResponseScript();
+            currentResponse = npcResponses[npcLineNumber].connectedTo[i];
+            spawnedButton.onClick.AddListener(() => NextNPCLine(currentResponse));
         }
-        // find which option was chosen
     }
 
-    void NextNPCLine()
+    void NextNPCLine(ResponseScript playerLine)
     {
         // find current player line 
+        Debug.Log(playerLine.connectedTo[0].line);
         // find current player line connection 
-        // display the line
+        camScript.lerpSubject = GameObject.Find("NPC");
+        npcText.text = playerLine.connectedTo[0].line;
+
+        for (int i = 0; i < npcResponses.Count; i++)
+        {
+            if (npcResponses[i].line == playerLine.connectedTo[0].line)
+            {
+                npcLineNumber = i;
+            }
+ 
+        }
     }
 }

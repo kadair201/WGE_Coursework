@@ -52,17 +52,11 @@ public class CameraScript : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (lerpSubject == player)
-                {
-                    lerpSubject = npc;
-                }
-                else
+                if (lerpSubject == npc)
                 {
                     lerpSubject = player;
                     dialogueScript.ShowPlayerOptions();
                 }
-
-                Debug.Log(lerpSubject);
             }
         }
     }

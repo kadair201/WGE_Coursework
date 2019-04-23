@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Dialogue>
-  <NPCDialogue>
-    <Response ID="172faf7a89813ff439c6c8dbdb7dedcc" Line="Hello there." />
-  </NPCDialogue>
-  <PlayerDialogue />
-</Dialogue>

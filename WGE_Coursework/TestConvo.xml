@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dialogue>
+  <NPCDialogue>
+    <Response ID="8397f127c08c8524b97e918025463670" Line="Hello.">
+      <Connections>3b41dea848e74624d9c61f2266cedc10</Connections>
+      <Connections>7db33394038fa1b4094befe8dacdf92c</Connections>
+    </Response>
+    <Response ID="ec3dc5177c9a637429cd3183e0af17f5" Line="How are you?">
+      <Connections>25ece121d5c947047a2326757c380969</Connections>
+      <Connections>9880f6aff1409594cafea98df79657c4</Connections>
+    </Response>
+    <Response ID="c39910ea0a8d782449e4452f8c5818db" Line="Good." />
+    <Response ID="b2ccae1192fc9774a978d8e4fedb6d56" Line="Oh no." />
+    <Response ID="9950056b4c50c6c4081de178002b6220" Line="Oh.  Are you busy?">
+      <Connections>37acc53fc42f16d4b981de42e20138d4</Connections>
+      <Connections>c8b9e6871c4e77a4c8feb6666f6eb786</Connections>
+    </Response>
+    <Response ID="4b47c50f7b50826489f4a3bc1ddb4d62" Line="Okay, bye." />
+    <Response ID="51fa945138f9fca4d99baa55bbd59ccf" Line="Oh, good." />
+  </NPCDialogue>
+  <PlayerDialogue>
+    <Response ID="3b41dea848e74624d9c61f2266cedc10" Line="Hi.">
+      <Connections>ec3dc5177c9a637429cd3183e0af17f5</Connections>
+    </Response>
+    <Response ID="25ece121d5c947047a2326757c380969" Line="I'm good, thank you.">
+      <Connections>c39910ea0a8d782449e4452f8c5818db</Connections>
+    </Response>
+    <Response ID="9880f6aff1409594cafea98df79657c4" Line="I've been better">
+      <Connections>b2ccae1192fc9774a978d8e4fedb6d56</Connections>
+    </Response>
+    <Response ID="7db33394038fa1b4094befe8dacdf92c" Line="Sorry, not now.">
+      <Connections>9950056b4c50c6c4081de178002b6220</Connections>
+    </Response>
+    <Response ID="37acc53fc42f16d4b981de42e20138d4" Line="Yes.  I'll talk later.">
+      <Connections>4b47c50f7b50826489f4a3bc1ddb4d62</Connections>
+    </Response>
+    <Response ID="c8b9e6871c4e77a4c8feb6666f6eb786" Line="...actually, no.">
+      <Connections>51fa945138f9fca4d99baa55bbd59ccf</Connections>
+    </Response>
+  </PlayerDialogue>
+</Dialogue>
