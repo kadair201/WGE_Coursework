@@ -96,18 +96,6 @@ public class XMLVoxelFileWriter
                 GameObject player = GameObject.Find("Player");
                 player.transform.position = loadedPosition;
             }
-
-            if (xmlReader.IsStartElement("Rotation"))
-            {
-                float rotX = float.Parse(xmlReader["x"]);
-                float rotY = float.Parse(xmlReader["y"]);
-                float rotZ = float.Parse(xmlReader["z"]);
-                xmlReader.Read();
-                Vector3 loadedRotation = new Vector3(rotX, rotY, rotZ);
-
-                GameObject player = GameObject.Find("Player");
-                player.transform.eulerAngles = loadedRotation;
-            }
         }
         return voxelArray;
     }

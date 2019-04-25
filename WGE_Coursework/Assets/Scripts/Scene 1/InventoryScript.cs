@@ -20,11 +20,17 @@ public class InventoryScript : MonoBehaviour {
     public RawImage stone;
     public PlayerScript playerScript;
 
+
+
+
 	// Use this for initialization
 	void Start () {
         DroppedCubeScript.OnEventAddInventory += AddBlockToInventory;
 	}
 	
+
+
+
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -110,11 +116,16 @@ public class InventoryScript : MonoBehaviour {
         inventoryTextStone.text = playerScript.blockCounts[3].ToString();
     }
 
+
+
+
     void AddBlockToInventory(int blockTex)
     {
+        // find which inventory count to add to
         switch (blockTex)
         {
             case 1:
+                // add to the inventory count
                 playerScript.blockCounts[0]++;
                 
                 break;

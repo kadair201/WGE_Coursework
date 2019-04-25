@@ -23,7 +23,7 @@ public class AudioManager : MonoBehaviour {
 
 
 
-    // Play the block audio for each block type
+    // play block audio for each block type
     void PlayBlockSound(int blockType)
     {
         switch (blockType)
@@ -37,12 +37,15 @@ public class AudioManager : MonoBehaviour {
                 audioSource.PlayOneShot(placeGrassBlockSound);
                 break;
             case 2:
+                // play the dirt placement sound effect
                 audioSource.PlayOneShot(placeDirtBlockSound);
                 break;
             case 3:
+                // play the sand placement sound effect
                 audioSource.PlayOneShot(placeSandBlockSound);
                 break;
             case 4:
+                // play the stone placement sound effect
                 audioSource.PlayOneShot(placeStoneBlockSound);
                 break;
             default:
@@ -54,7 +57,7 @@ public class AudioManager : MonoBehaviour {
 
 
 
-    // When game object is enabled
+    // attach the method to the event when the gameObject is enabled
     void OnEnable()
     {
         VoxelChunk.OnEventBlockChanged += PlayBlockSound;
@@ -63,7 +66,7 @@ public class AudioManager : MonoBehaviour {
 
 
 
-    // When game object is disabled
+    // detach the method from the event when the gameObject is disabled
     void OnDisable()
     {
         VoxelChunk.OnEventBlockChanged -= PlayBlockSound;

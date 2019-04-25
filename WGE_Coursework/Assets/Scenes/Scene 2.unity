@@ -1898,7 +1898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xmlWriter: {fileID: 1678589611}
   camScript: {fileID: 609484272}
-  filename: Run This File
+  filename: DialogueTestFile
   npcBox: {fileID: 2048348094}
   npcText: {fileID: 265157148}
   playerBox: {fileID: 413716870}

@@ -46,7 +46,7 @@ public class InventoryPanelScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        // Populate blockAmounts array
+        // update blockAmounts array
         for (int i = 0; i < 4; i++)
         {
             inventoryItems[i] = new InventoryItemScript();
@@ -55,6 +55,7 @@ public class InventoryPanelScript : MonoBehaviour {
             inventoryItems[i].itemImage = blockImage[i];
         }
 
+        // if the 0 key is pressed
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             if (invPanelOpen)
@@ -77,19 +78,28 @@ public class InventoryPanelScript : MonoBehaviour {
             }
         }
 
+        // if there are no panels open
         if (!invPanelOpen && !voxChunk.panelOpen)
         {
+            // allow the player to move
             fpscript.m_RunSpeed = 10;
             fpscript.m_WalkSpeed = 5;
         }
+        // if either panel is open
         else if (invPanelOpen || voxChunk.panelOpen)
         {
+            // freeze the player
             fpscript.m_RunSpeed = 0;
             fpscript.m_WalkSpeed = 0;
         }
 
-        search = searchBar.text;
-        SearchByName(search.ToLower());
+        if (invPanelOpen)
+        {
+            // search input
+            search = searchBar.text;
+            SearchByName(search.ToLower());
+        }
+        
     }
 
 
@@ -103,14 +113,19 @@ public class InventoryPanelScript : MonoBehaviour {
 
     public void SortAlphabetically()
     {
+        // Empty the sortBy variable
         SortType sortBy = null;
+
+        // if the inventory is already sorted A to Z
         if (isSortedAtoZ)
         {
+            // sort it by Z to A
             isSortedAtoZ = false;
             sortBy = new SortType(SortZtoA);
         }
-        else
+        else // if the inventory is sorted Z to A
         {
+            // sort it by A to Z
             isSortedAtoZ = true;
             sortBy = new SortType(SortAtoZ);
         }
@@ -123,7 +138,7 @@ public class InventoryPanelScript : MonoBehaviour {
 
     int SortAtoZ(InventoryItemScript a, InventoryItemScript b)
     {
-        Debug.Log("item a: " + a.itemName + " item b: " + b.itemName);
+        // compare a to b
         return string.Compare(a.itemName, b.itemName);
     }
 
@@ -132,7 +147,7 @@ public class InventoryPanelScript : MonoBehaviour {
 
     int SortZtoA(InventoryItemScript a, InventoryItemScript b)
     {
-        Debug.Log("item a: " + a.itemName + " item b: " + b.itemName);
+        // compare b to a
         return string.Compare(b.itemName, a.itemName);
     }
 
@@ -152,13 +167,16 @@ public class InventoryPanelScript : MonoBehaviour {
     public void SortByAmount()
     {
         SortType sortBy = null;
+        // if sorted high to low
         if (isSortedHighToLow)
         {
+            // sort low to high
             isSortedHighToLow = false;
             sortBy = new SortType(SortLowToHigh);
         }
         else
         {
+            // sort high to low
             isSortedHighToLow = true;
             sortBy = new SortType(SortHighToLow);
         }
@@ -171,7 +189,6 @@ public class InventoryPanelScript : MonoBehaviour {
 
     int SortHighToLow(InventoryItemScript a, InventoryItemScript b)
     {
-        Debug.Log("a: " + a.itemCount + " b: " + b.itemCount);
         if (a.itemCount > b.itemCount)
         {
             return -1;
@@ -187,7 +204,6 @@ public class InventoryPanelScript : MonoBehaviour {
 
     int SortLowToHigh(InventoryItemScript a, InventoryItemScript b)
     {
-        Debug.Log("a: " + a.itemCount + " b: " + b.itemCount);
         if (a.itemCount < b.itemCount)
         {
             return -1;
@@ -207,6 +223,8 @@ public class InventoryPanelScript : MonoBehaviour {
         if (amounts.Length <= 1) return amounts;
 
         int arrayLength = amounts.Length / 2;
+
+        // split into two arrays
         InventoryItemScript[] firstHalf = new InventoryItemScript[arrayLength];
         InventoryItemScript[] secondHalf = new InventoryItemScript[arrayLength];
 
@@ -215,24 +233,25 @@ public class InventoryPanelScript : MonoBehaviour {
             if (i <= arrayLength - 1)
             {
                 firstHalf[i] = amounts[i];
-                //Debug.Log("number " + firstHalf[i] + " added to firstHalf");
             }
             else if (i > arrayLength - 1)
             {
                 secondHalf[i - arrayLength] = amounts[i];
-                //Debug.Log("number " + secondHalf[i - arrayLength] + " added to secondHalf");
             }
         }
 
+        // call recursively
         firstHalf = Sort(firstHalf, sortType);
         secondHalf = Sort(secondHalf, sortType);
 
         if (!isSortedHighToLow)
         {
+            // merge the two arrays, according to the sort type
             amounts = Merge(firstHalf, secondHalf, sortType);
         }
         else
         {
+            // merge the two arrays, according to the sort type
             amounts = Merge(firstHalf, secondHalf, sortType);
         }
 
@@ -241,6 +260,7 @@ public class InventoryPanelScript : MonoBehaviour {
         {
             for (int i = 0; i < amounts.Length; i++)
             {
+                // reassign text and 
                 panel[i].GetComponent<Image>().sprite = amounts[i].itemImage;
                 panel[i].GetComponentInChildren<Text>().text = amounts[i].itemName + ": " + amounts[i].itemCount;
             }
@@ -255,10 +275,12 @@ public class InventoryPanelScript : MonoBehaviour {
 
     InventoryItemScript[] Merge(InventoryItemScript[] left, InventoryItemScript[] right, SortType sortType)
     {
+        // create a new array for the merged items
         InventoryItemScript[] merged = new InventoryItemScript[left.Length + right.Length];
         int i, j, m;
         i = j = m = 0;
 
+        // while both i and j are less than the left and right array lengths
         while (i < left.Length && j < right.Length)
         {
             int result = sortType(left[i], right[j]);

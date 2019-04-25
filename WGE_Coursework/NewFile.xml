@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dialogue>
+  <NPCDialogue>
+    <Response ID="badfd6b626db63f47b5792da36ec0391" Line="Line 1">
+      <Connections>7b49abfb2dce99e48a8b6a8008b55492</Connections>
+      <Connections>aaa62ed46d984a84b9184c39f5ead3aa</Connections>
+    </Response>
+    <Response ID="cfb70cd8c38beef41bb9c8e44092a666" Line="Line 2">
+      <Connections>a870941db1f348a4190306bf140494a4</Connections>
+      <Connections>cee957ef031454943839a3ddfc3f78eb</Connections>
+    </Response>
+    <Response ID="e6a7056628b5fe144b0549b5c5437968" Line="" />
+    <Response ID="59a698310c92fe44ca4526d88e4632df" Line="Line 3">
+      <Connections>09b0037ebb7f0c942950e8110e4a8c7f</Connections>
+    </Response>
+    <Response ID="a085be197c69536419dd2fb587c60023" Line="" />
+    <Response ID="f7107ae9ba535b54da02e71f98384717" Line="" />
+  </NPCDialogue>
+  <PlayerDialogue>
+    <Response ID="7b49abfb2dce99e48a8b6a8008b55492" Line="Line 1 response 1">
+      <Connections>cfb70cd8c38beef41bb9c8e44092a666</Connections>
+    </Response>
+    <Response ID="a870941db1f348a4190306bf140494a4" Line="Line 2 response 1">
+      <Connections>e6a7056628b5fe144b0549b5c5437968</Connections>
+    </Response>
+    <Response ID="aaa62ed46d984a84b9184c39f5ead3aa" Line="Line 1 response 2">
+      <Connections>59a698310c92fe44ca4526d88e4632df</Connections>
+    </Response>
+    <Response ID="cee957ef031454943839a3ddfc3f78eb" Line="Line 2 response 2">
+      <Connections>a085be197c69536419dd2fb587c60023</Connections>
+    </Response>
+    <Response ID="09b0037ebb7f0c942950e8110e4a8c7f" Line="Line 3 response 1">
+      <Connections>f7107ae9ba535b54da02e71f98384717</Connections>
+    </Response>
+  </PlayerDialogue>
+</Dialogue>

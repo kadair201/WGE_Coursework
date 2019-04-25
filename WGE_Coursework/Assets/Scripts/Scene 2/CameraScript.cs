@@ -79,7 +79,7 @@ public class CameraScript : MonoBehaviour {
     {
         zooming = false;
         lerpSubject = player;
-        player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+        player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         StartCoroutine(StartZoomOut());
     }
 

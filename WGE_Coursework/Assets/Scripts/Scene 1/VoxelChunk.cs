@@ -220,7 +220,8 @@ public class VoxelChunk : MonoBehaviour
 
     public void SetBlock(Vector3 index, int blockType)
     {
-        if ((index.x >= 0 && index.x <= terrainArray.GetLength(0)) && (index.y >= 0 && index.y <= terrainArray.GetLength(1)) && (index.z >= 0 && index.z <= terrainArray.GetLength(2)))
+        if ((index.x >= 0 && index.x <= terrainArray.GetLength(0)) && (index.y >= 0 && 
+            index.y <= terrainArray.GetLength(1)) && (index.z >= 0 && index.z <= terrainArray.GetLength(2)))
         { 
             // If the block is destroyed, spawn the collectable block
             if (blockType == 0)
@@ -285,7 +286,7 @@ public class VoxelChunk : MonoBehaviour
         }
         else
         {
-            Debug.Log("Nope.");
+            Debug.Log("No file found.");
         }
     }
 }
